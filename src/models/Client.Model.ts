@@ -57,6 +57,10 @@ const ClientSchema = new Schema<Client>(
 			type: Boolean,
 			default: false,
 		},
+		password: {
+			type: String,
+			required: true,
+		},
 	},
 	{
 		timestamps: true,

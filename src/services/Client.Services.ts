@@ -1,5 +1,6 @@
 import { Request } from "express";
 import ClientModel from "../models/Client.Model";
+import { hashpassword } from "../utils/bcryptUtils";
 
 const getClientService = async (req: Request) => {
 	const id = req.params.id;
@@ -8,8 +9,11 @@ const getClientService = async (req: Request) => {
 	if (id) {
 		try {
 			const client = populated
-				? await ClientModel.findById(id).populate(["zone", "seller"])
-				: await ClientModel.findById(id);
+				? await ClientModel.findById(id, { password: 0 }).populate([
+						"zone",
+						"seller",
+				  ])
+				: await ClientModel.findById(id, { password: 0 });
 			return client;
 		} catch (error: unknown) {
 			throw new Error(`${error}`);
@@ -24,8 +28,8 @@ const getClientsService = async (req: Request) => {
 
 	try {
 		const clients = populated
-			? await ClientModel.find().populate(["zone", "seller"])
-			: await ClientModel.find();
+			? await ClientModel.find({}, { password: 0 }).populate(["zone", "seller"])
+			: await ClientModel.find({}, { password: 0 });
 		return clients;
 	} catch (error) {
 		throw new Error(`${error}`);
@@ -35,6 +39,8 @@ const getClientsService = async (req: Request) => {
 const registerClientService = async (req: Request) => {
 	const data = req.body;
 	try {
+		const password = await hashpassword(data.password);
+		data.password = password;
 		const client = await ClientModel.create(data);
 		return client;
 	} catch (error) {

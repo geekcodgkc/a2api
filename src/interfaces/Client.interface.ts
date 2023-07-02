@@ -21,4 +21,5 @@ export interface Client extends mongoose.Document {
 	seller: Seller | null;
 	taxpayer: boolean;
 	verified: boolean;
+	password: string;
 }

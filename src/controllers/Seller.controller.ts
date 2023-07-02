@@ -1,10 +1,17 @@
 import { Request, Response } from "express";
 import { handleErrorHttp } from "../utils/handleErrorHttp";
+import {
+	getSellerService,
+	getSellersService,
+	createSellerService,
+	updateSellerService,
+	deleteSellerService,
+} from "../services/Seller.Services";
 
 const getSeller = async (req: Request, res: Response) => {
 	try {
-		console.log("called");
-		res.json({ message: "route called" });
+		const seller = await getSellerService(req);
+		res.json(seller);
 	} catch (error) {
 		handleErrorHttp(res, "hubo un error", error);
 	}
@@ -12,8 +19,8 @@ const getSeller = async (req: Request, res: Response) => {
 
 const getSellers = async (req: Request, res: Response) => {
 	try {
-		console.log("called");
-		res.json({ message: "route called" });
+		const seller = await getSellersService(req);
+		res.json(seller);
 	} catch (error) {
 		handleErrorHttp(res, "hubo un error", error);
 	}
@@ -21,8 +28,8 @@ const getSellers = async (req: Request, res: Response) => {
 
 const createSeller = async (req: Request, res: Response) => {
 	try {
-		console.log("called");
-		res.json({ message: "route called" });
+		const seller = await createSellerService(req);
+		res.json(seller);
 	} catch (error) {
 		handleErrorHttp(res, "hubo un error", error);
 	}
@@ -30,8 +37,8 @@ const createSeller = async (req: Request, res: Response) => {
 
 const updateSeller = async (req: Request, res: Response) => {
 	try {
-		console.log("called");
-		res.json({ message: "route called" });
+		const seller = await updateSellerService(req);
+		res.json(seller);
 	} catch (error) {
 		handleErrorHttp(res, "hubo un error", error);
 	}
@@ -39,8 +46,8 @@ const updateSeller = async (req: Request, res: Response) => {
 
 const deleteSeller = async (req: Request, res: Response) => {
 	try {
-		console.log("called");
-		res.json({ message: "route called" });
+		const seller = await deleteSellerService(req);
+		res.json({ message: seller });
 	} catch (error) {
 		handleErrorHttp(res, "hubo un error", error);
 	}

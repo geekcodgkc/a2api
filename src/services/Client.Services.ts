@@ -56,6 +56,7 @@ const updateClientService = async (req: Request) => {
 		try {
 			const client = await ClientModel.findByIdAndUpdate(id, data, {
 				new: true,
+				fields: "-password",
 			}).populate(["zone", "seller"]);
 			return client;
 		} catch (error) {

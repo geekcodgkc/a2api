@@ -1,6 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import { router } from "./routes";
 import dbConnect from "./config/mongo";
 
@@ -11,6 +12,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(router);
+app.use(cookieParser());
 
 dbConnect()
 	.then(() => console.log("db connected"))

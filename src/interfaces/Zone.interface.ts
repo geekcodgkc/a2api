@@ -9,7 +9,7 @@ enum State {
 	Bolivar = "BOLIVAR",
 	Carabobo = "CARABOBO",
 	Cojedes = "COJEDES",
-	Delta = "DELTA",
+	Delta = "DELTA AMACURO",
 	Distrito = "DISTRITO CAPITAL",
 	Falcon = "FALCON",
 	Guarico = "GUARICO",

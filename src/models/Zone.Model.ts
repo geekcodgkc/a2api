@@ -23,7 +23,7 @@ const ZoneSchema = new Schema<Zone>(
 				"BOLIVAR",
 				"CARABOBO",
 				"COJEDES",
-				"DELTA",
+				"DELTA AMACURO",
 				"DISTRITO CAPITAL",
 				"FALCON",
 				"GUARICO",

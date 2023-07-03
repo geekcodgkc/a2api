@@ -1,6 +1,6 @@
 {
 	"name": "a2connector",
-	"version": "1.0.0",
+	"version": "0.0.1",
 	"description": "a2 connector using api",
 	"main": "index.js",
 	"scripts": {

@@ -1,6 +1,5 @@
 import { Request } from "express";
 import orderModel from "../models/Order.Model";
-import { Order } from "../interfaces/Order.interface";
 
 const getOrderService = async (req: Request) => {
 	const id = req.params.id;

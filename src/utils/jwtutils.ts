@@ -1,12 +1,38 @@
-import Jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken/index";
 import "dotenv/config";
 
-const secret = process.env.SECRET;
+const SECRET = process.env.SECRET;
+const ALG = "HS256";
+const TIME = process.env.COOKIE_TIME
+	? parseInt(process.env.COOKIE_TIME) * 30
+	: 60000 * 30;
 
-const jwtConfig = {};
+const signToken = async (data: Object) => {
+	jwt.sign(
+		data,
+		`${SECRET}`,
+		{
+			algorithm: ALG,
+			expiresIn: TIME.toString(),
+		},
+		(err, token) => {
+			if (err) {
+				throw new Error(JSON.stringify(err));
+			}
 
-const sign = async (data: unknown) => {};
+			return token;
+		},
+	);
+};
 
-const verify = async (data: unknown) => {};
+const verifyToken = async (token: string) => {
+	jwt.verify(token, `${SECRET}`, (err, decoded) => {
+		if (err) {
+			throw new Error(JSON.stringify(err));
+		}
 
-export { verify, sign };
+		return decoded;
+	});
+};
+
+export = { verifyToken, signToken };

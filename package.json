@@ -8,7 +8,7 @@
 		"dev": "nodemon ./src/app.ts",
 		"build": "tsc"
 	},
-	"keywords": [],
+	"keywords": ["a2"],
 	"author": "",
 	"license": "ISC",
 	"dependencies": {

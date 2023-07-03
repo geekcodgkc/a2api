@@ -14,6 +14,11 @@ const ProductSaleSchema = new Schema<ProductOrder>(
 			type: Number,
 			required: true,
 		},
+		qty: {
+			type: Number,
+			required: true,
+			default: 1,
+		},
 	},
 	{
 		timestamps: false,

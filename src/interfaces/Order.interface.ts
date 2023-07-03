@@ -11,6 +11,7 @@ enum Status {
 export interface ProductOrder extends mongoose.Document {
 	product: Product | string;
 	price: number;
+	qty: number;
 }
 
 export interface Order extends mongoose.Document {

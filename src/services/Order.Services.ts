@@ -28,9 +28,7 @@ const getOrderService = async (req: Request) => {
 								},
 							},
 						)
-				: await orderModel
-						.findById(id)
-						.populate(["products", "product.product"]);
+				: await orderModel.findById(id).populate("products");
 			return order;
 		} catch (error: unknown) {
 			throw new Error(`${error}`);
@@ -41,36 +39,26 @@ const getOrderService = async (req: Request) => {
 };
 
 const getOrdersService = async (req: Request) => {
-	const id = req.params.id;
 	const populated = req.query.populated;
 
-	if (id) {
-		try {
-			const order = populated
-				? await orderModel
-						.find()
-						.populate(
-							[
-								"products",
-								"client",
-								"client.zone",
-								"client.seller",
-								"product.product",
-							],
-							{
-								client: {
-									password: 0,
-									seller: {
-										password: 0,
-									},
-								},
-							},
-						)
-				: await orderModel.find().populate(["products", "product.product"]);
-			return order;
-		} catch (error: unknown) {
-			throw new Error(`${error}`);
-		}
+	try {
+		const order = populated
+			? await orderModel
+					.find()
+					.populate("products.product", "-products.product.__v")
+					.populate({
+						path: "client",
+						options: {
+							password: 0,
+						},
+						populate: {
+							path: "zone",
+						},
+					})
+			: await orderModel.find().populate("products.product", "-product.__v");
+		return order;
+	} catch (error: unknown) {
+		throw new Error(`${error}`);
 	}
 };
 

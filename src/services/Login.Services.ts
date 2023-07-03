@@ -49,7 +49,6 @@ const loginService = async (req: Request, res: Response) => {
 			isAdmin: true,
 			id: seller._id,
 		});
-		console.log(cookieToken);
 		createCookie(res, cookieToken);
 		return cookieToken;
 	}

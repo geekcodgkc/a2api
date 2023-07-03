@@ -8,11 +8,9 @@ const getFreightService = async (req: Request) => {
 	if (id) {
 		try {
 			const freight = populated
-				? await freightModel.findById(id).populate("cod", {
-						cod: {
-							createdAt: 0,
-						},
-				  })
+				? await freightModel
+						.findById(id, "-createdAt -updatedAt -__v")
+						.populate("cod", "-createdAt-createdAt -updatedAt -__v")
 				: await freightModel.findById(id);
 			return freight;
 		} catch (error: unknown) {
@@ -25,14 +23,11 @@ const getFreightService = async (req: Request) => {
 
 const getFreightsService = async (req: Request) => {
 	const populated = req.query.populated;
-	console.log(req);
 	try {
 		const freight = populated
-			? await freightModel.find().populate("cod", {
-					cod: {
-						createdAt: 0,
-					},
-			  })
+			? await freightModel
+					.find({}, "-createdAt -updatedAt -__v")
+					.populate("cod", "-createdAt -updatedAt -__v")
 			: await freightModel.find();
 		return freight;
 	} catch (error: unknown) {

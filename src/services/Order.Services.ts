@@ -4,7 +4,7 @@ import { Order } from "../interfaces/Order.interface";
 
 const getOrderService = async (req: Request) => {
 	const id = req.params.id;
-	const populated = req.params.populated;
+	const populated = req.query.populated;
 
 	if (id) {
 		try {
@@ -42,7 +42,7 @@ const getOrderService = async (req: Request) => {
 
 const getOrdersService = async (req: Request) => {
 	const id = req.params.id;
-	const populated = req.params.populated;
+	const populated = req.query.populated;
 
 	if (id) {
 		try {

@@ -4,7 +4,7 @@ import { hashpassword } from "../utils/bcryptUtils";
 
 const getClientService = async (req: Request) => {
 	const id = req.params.id;
-	const populated = req.params.populated;
+	const populated = req.query.populated;
 
 	if (id) {
 		try {
@@ -24,7 +24,7 @@ const getClientService = async (req: Request) => {
 };
 
 const getClientsService = async (req: Request) => {
-	const populated = req.params.populated;
+	const populated = req.query.populated;
 
 	try {
 		const clients = populated

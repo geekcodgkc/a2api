@@ -3,12 +3,16 @@ import freightModel from "../models/Freight.Model";
 
 const getFreightService = async (req: Request) => {
 	const id = req.params.id;
-	const populated = req.params.populated;
+	const populated = req.query.populated;
 
 	if (id) {
 		try {
 			const freight = populated
-				? await freightModel.findById(id).populate("cod")
+				? await freightModel.findById(id).populate("cod", {
+						cod: {
+							createdAt: 0,
+						},
+				  })
 				: await freightModel.findById(id);
 			return freight;
 		} catch (error: unknown) {
@@ -20,21 +24,20 @@ const getFreightService = async (req: Request) => {
 };
 
 const getFreightsService = async (req: Request) => {
-	const id = req.params.id;
-	const populated = req.params.populated;
-
-	if (id) {
-		try {
-			const freight = populated
-				? await freightModel.find().populate("cod")
-				: await freightModel.find();
-			return freight;
-		} catch (error: unknown) {
-			throw new Error(`${error}`);
-		}
+	const populated = req.query.populated;
+	console.log(req);
+	try {
+		const freight = populated
+			? await freightModel.find().populate("cod", {
+					cod: {
+						createdAt: 0,
+					},
+			  })
+			: await freightModel.find();
+		return freight;
+	} catch (error: unknown) {
+		throw new Error(`${error}`);
 	}
-
-	throw new Error("no 'id' was provided");
 };
 
 const createFreightService = async (req: Request) => {

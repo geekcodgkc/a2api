@@ -1,5 +1,6 @@
 import { Request } from "express";
 import sellerModel from "../models/Seller.Model";
+import { hashpassword } from "../utils/bcryptUtils";
 
 const getSellerService = async (req: Request) => {
 	const id = req.params.id;
@@ -28,6 +29,8 @@ const getSellersService = async (req: Request) => {
 const createSellerService = async (req: Request) => {
 	const data = req.body;
 	try {
+		const password = await hashpassword(data.password);
+		data.password = password;
 		const seller = await sellerModel.create(data);
 		return seller;
 	} catch (error) {

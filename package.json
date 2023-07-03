@@ -5,9 +5,10 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"dev": "nodemon ./src/app.ts"
+		"dev": "nodemon ./src/app.ts",
+		"build": "tsc"
 	},
-	"keywords": [],
+	"keywords": ["a2"],
 	"author": "",
 	"license": "ISC",
 	"dependencies": {

@@ -4,7 +4,8 @@
 	"description": "a2 connector using api",
 	"main": "index.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "nodemon ./src/app.ts"
 	},
 	"keywords": [],
 	"author": "",
@@ -27,6 +28,7 @@
 		"@types/express": "^4.17.17",
 		"@types/jsonwebtoken": "^9.0.2",
 		"@types/mongoose": "^5.11.97",
+		"nodemon": "^2.0.22",
 		"rome": "12.1.3"
 	}
 }

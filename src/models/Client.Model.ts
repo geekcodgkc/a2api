@@ -13,6 +13,7 @@ const ClientSchema = new Schema<Client>(
 		rif: {
 			type: String,
 			required: true,
+			unique: true,
 		},
 		name: {
 			type: String,
@@ -25,6 +26,7 @@ const ClientSchema = new Schema<Client>(
 		email: {
 			type: String,
 			required: true,
+			unique: true,
 		},
 		zone: {
 			type: Schema.Types.ObjectId,
@@ -64,7 +66,6 @@ const ClientSchema = new Schema<Client>(
 	},
 	{
 		timestamps: true,
-		versionKey: true,
 	},
 );
 

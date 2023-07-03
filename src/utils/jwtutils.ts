@@ -7,25 +7,16 @@ const TIME = process.env.COOKIE_TIME
 	? parseInt(process.env.COOKIE_TIME) * 30
 	: 60000 * 30;
 
-const signToken = async (data: Object) => {
-	jwt.sign(
-		data,
-		`${SECRET}`,
-		{
-			algorithm: ALG,
-			expiresIn: TIME.toString(),
-		},
-		(err, token) => {
-			if (err) {
-				throw new Error(JSON.stringify(err));
-			}
+const signToken = (data: Object): string => {
+	const response = jwt.sign(data, `${SECRET}`, {
+		algorithm: ALG,
+		expiresIn: TIME.toString(),
+	});
 
-			return token;
-		},
-	);
+	return response;
 };
 
-const verifyToken = async (token: string) => {
+const verifyToken = (token: string) => {
 	jwt.verify(token, `${SECRET}`, (err, decoded) => {
 		if (err) {
 			throw new Error(JSON.stringify(err));
@@ -35,4 +26,4 @@ const verifyToken = async (token: string) => {
 	});
 };
 
-export = { verifyToken, signToken };
+export { verifyToken, signToken };

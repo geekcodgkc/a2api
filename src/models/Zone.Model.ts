@@ -44,7 +44,6 @@ const ZoneSchema = new Schema<Zone>(
 	},
 	{
 		timestamps: true,
-		versionKey: true,
 	},
 );
 

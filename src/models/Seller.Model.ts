@@ -30,7 +30,6 @@ const SellerSchema = new Schema<Seller>(
 	},
 	{
 		timestamps: true,
-		versionKey: true,
 	},
 );
 

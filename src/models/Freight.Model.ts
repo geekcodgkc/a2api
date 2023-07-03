@@ -16,7 +16,6 @@ const FreightSchema = new Schema<Freight>(
 	},
 	{
 		timestamps: true,
-		versionKey: true,
 	},
 );
 

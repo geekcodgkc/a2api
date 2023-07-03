@@ -38,7 +38,7 @@ const ClientSchema = new Schema<Client>(
 			required: true,
 			validate: ValidateLen,
 		},
-		contacto: {
+		contact: {
 			type: String,
 			required: true,
 		},
@@ -46,6 +46,7 @@ const ClientSchema = new Schema<Client>(
 			type: Number,
 			enum: [1, 2, 3, 4],
 			required: true,
+			default: 1,
 		},
 		seller: {
 			type: Schema.Types.ObjectId,

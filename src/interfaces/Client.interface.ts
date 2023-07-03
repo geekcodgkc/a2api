@@ -16,7 +16,7 @@ export interface Client extends mongoose.Document {
 	email: string;
 	zone: Zone | string;
 	phone: number[];
-	contacto: string;
+	contact: string;
 	conditionPrice: Condition;
 	seller: Seller | null;
 	taxpayer: boolean;

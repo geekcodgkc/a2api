@@ -9,11 +9,20 @@ const getClientService = async (req: Request) => {
 	if (id) {
 		try {
 			const client = populated
-				? await ClientModel.findById(id, { password: 0 }).populate([
-						"zone",
-						"seller",
-				  ])
-				: await ClientModel.findById(id, { password: 0 });
+				? await ClientModel.findById(id, {
+						password: 0,
+						__V: 0,
+						createdAt: 0,
+						updatedAt: 0,
+				  })
+						.populate("zone", "-_id -createdAt -updatedAt -id -__v")
+						.populate("seller", "-password -id -createdAt -updatedAt -__v")
+				: await ClientModel.findById(id, {
+						password: 0,
+						__V: 0,
+						createdAt: 0,
+						updatedAt: 0,
+				  });
 			return client;
 		} catch (error: unknown) {
 			throw new Error(`${error}`);
@@ -28,8 +37,13 @@ const getClientsService = async (req: Request) => {
 
 	try {
 		const clients = populated
-			? await ClientModel.find({}, { password: 0 }).populate(["zone", "seller"])
-			: await ClientModel.find({}, { password: 0 });
+			? await ClientModel.find({}, { password: 0 })
+					.populate("zone", "-_id -createdAt -updatedAt -id -__v")
+					.populate("seller", "-password -id -createdAt -updatedAt -__v")
+			: await ClientModel.find(
+					{},
+					{ password: 0, __V: 0, createdAt: 0, updatedAt: 0, __v: 0 },
+			  );
 		return clients;
 	} catch (error) {
 		throw new Error(`${error}`);

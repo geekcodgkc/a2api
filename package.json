@@ -7,12 +7,9 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"dev": "nodemon ./src/app.ts",
 		"build": "tsc",
-		"start": "ts-node src/app.ts",
-		"vercel-build": "echo hello"
+		"start": "ts-node src/app.ts"
 	},
-	"keywords": [
-		"a2"
-	],
+	"keywords": ["a2"],
 	"author": "",
 	"license": "ISC",
 	"dependencies": {

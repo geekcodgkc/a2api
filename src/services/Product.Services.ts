@@ -8,7 +8,7 @@ const getProductService = async (req: Request) => {
 		try {
 			const product = await productModel.findOne(
 				{ id },
-				"-__v -createdAt -updatedAt",
+				"-__v -createdAt -updatedAt -prices._id",
 			);
 			return product;
 		} catch (error: unknown) {
@@ -21,7 +21,10 @@ const getProductService = async (req: Request) => {
 
 const getProductsService = async (req: Request) => {
 	try {
-		const product = productModel.find({}, "-__v -createdAt -updatedAt");
+		const product = productModel.find(
+			{},
+			"-__v -createdAt -updatedAt -prices._id",
+		);
 		return product;
 	} catch (error) {
 		throw new Error(`${error}`);
@@ -54,6 +57,7 @@ const updateProductService = async (req: Request) => {
 			};
 			const product = await productModel.findOneAndUpdate({ id }, updated, {
 				new: true,
+				fields: "-__v -updatedAt -createdAt -prices._id",
 			});
 			return product;
 		} catch (error) {

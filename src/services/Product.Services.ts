@@ -28,7 +28,7 @@ const getProductsService = async (req: Request) => {
 const createProductService = async (req: Request) => {
 	const data = req.body;
 	try {
-		const product = await productModel.create(data);
+		const product = await productModel.insertMany(data);
 		return product;
 	} catch (error) {
 		throw new Error(`${error}`);

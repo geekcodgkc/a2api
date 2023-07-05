@@ -44,7 +44,15 @@ const updateProductService = async (req: Request) => {
 
 	if (id) {
 		try {
-			const product = await productModel.findOneAndUpdate({ id }, data, {
+			const current = await productModel.findOne({ id });
+			if (!current) throw new Error("Product not found");
+			const parsed = current.toJSON();
+			const updated = {
+				...parsed,
+				...data,
+				prices: { ...parsed.prices, ...data.prices },
+			};
+			const product = await productModel.findOneAndUpdate({ id }, updated, {
 				new: true,
 			});
 			return product;

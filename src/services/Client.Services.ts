@@ -1,6 +1,7 @@
 import { Request } from "express";
 import ClientModel from "../models/Client.Model";
 import { hashpassword } from "../utils/bcryptUtils";
+import { Client } from "../interfaces/Client.interface";
 
 const getClientService = async (req: Request) => {
 	const id = req.params.id;
@@ -9,20 +10,16 @@ const getClientService = async (req: Request) => {
 	if (id) {
 		try {
 			const client = populated
-				? await ClientModel.findById(id, {
-						password: 0,
-						__V: 0,
-						createdAt: 0,
-						updatedAt: 0,
-				  })
+				? await ClientModel.findOne<Client | null>(
+						{ rif: id },
+						"-password -__v -createdAt -updatedAt -_id",
+				  )
 						.populate("zone", "-_id -createdAt -updatedAt -id -__v")
 						.populate("seller", "-password -id -createdAt -updatedAt -__v")
-				: await ClientModel.findById(id, {
-						password: 0,
-						__V: 0,
-						createdAt: 0,
-						updatedAt: 0,
-				  });
+				: await ClientModel.findOne<Client | null>(
+						{ rif: id },
+						"-password -__v -createdAt -updatedAt -_id",
+				  );
 			return client;
 		} catch (error: unknown) {
 			throw new Error(`${error}`);
@@ -68,7 +65,7 @@ const updateClientService = async (req: Request) => {
 
 	if (id) {
 		try {
-			const client = await ClientModel.findByIdAndUpdate(id, data, {
+			const client = await ClientModel.findByIdAndUpdate({ rif: id }, data, {
 				new: true,
 				fields: "-password",
 			}).populate(["zone", "seller"]);
@@ -86,7 +83,7 @@ const deleteClientService = async (req: Request) => {
 
 	if (id) {
 		try {
-			await ClientModel.findByIdAndDelete(id);
+			await ClientModel.findOneAndDelete({ rif: id });
 			return `client with id: "${id}" was removed succesfully`;
 		} catch (error) {
 			throw new Error(`${error}`);

@@ -29,6 +29,17 @@ const getClientService = async (req: Request) => {
 	throw new Error("no 'id' was provided");
 };
 
+const createClientsService = async (req: Request) => {
+	const data = req.body;
+
+	try {
+		const clients = await ClientModel.insertMany(data);
+		return clients;
+	} catch (error: unknown) {
+		throw new Error(`${error}`);
+	}
+};
+
 const getClientsService = async (req: Request) => {
 	const populated = req.query.populated;
 
@@ -99,4 +110,5 @@ export {
 	registerClientService,
 	updateClientService,
 	deleteClientService,
+	createClientsService,
 };

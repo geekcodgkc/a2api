@@ -5,6 +5,7 @@ import {
 	registerClient,
 	updateClient,
 	deleteClient,
+	createClients,
 } from "../controllers/Client.controller";
 
 const router = Router();
@@ -14,5 +15,6 @@ router.get("/:id", getClient);
 router.post("/register", registerClient);
 router.put("/:id", updateClient);
 router.delete("/:id", deleteClient);
+router.post("/", createClients);
 
 export { router };

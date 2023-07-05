@@ -1,10 +1,30 @@
-import { Product } from "../interfaces/Products.interface";
+import { Product, Price } from "../interfaces/Products.interface";
 import { Schema, model } from "mongoose";
 
-const ValidateLen = (length: number[]) => {
-	const totalLength = 4;
-	return length.length === totalLength;
-};
+const PricesSchemas = new Schema<Price>(
+	{
+		p1: {
+			type: Number,
+			required: true,
+		},
+		p2: {
+			type: Number,
+			required: true,
+		},
+		p3: {
+			type: Number,
+			required: true,
+		},
+		p4: {
+			type: Number,
+			required: true,
+		},
+	},
+	{
+		timestamps: false,
+		versionKey: false,
+	},
+);
 
 const ProductSchema = new Schema<Product>(
 	{
@@ -16,16 +36,16 @@ const ProductSchema = new Schema<Product>(
 			type: String,
 			required: true,
 		},
-		prices: {
-			type: [Number],
-			validate: [ValidateLen, "debe contener 4 escalas de precios"],
-			required: true,
-		},
+		prices: PricesSchemas,
 		department: String,
 		presentation: {
 			type: String,
 			enum: ["caja15kg", "carboya", "tina", "paila", "botella", "granel"],
 			required: true,
+		},
+		status: {
+			type: Boolean,
+			default: true,
 		},
 	},
 	{

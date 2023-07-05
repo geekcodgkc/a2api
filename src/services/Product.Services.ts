@@ -6,7 +6,10 @@ const getProductService = async (req: Request) => {
 
 	if (id) {
 		try {
-			const product = await productModel.findById(id);
+			const product = await productModel.findOne(
+				{ id },
+				"-__v -createdAt -updatedAt",
+			);
 			return product;
 		} catch (error: unknown) {
 			throw new Error(`${error}`);
@@ -18,7 +21,7 @@ const getProductService = async (req: Request) => {
 
 const getProductsService = async (req: Request) => {
 	try {
-		const product = productModel.find();
+		const product = productModel.find({}, "-__v -createdAt -updatedAt");
 		return product;
 	} catch (error) {
 		throw new Error(`${error}`);
@@ -41,7 +44,7 @@ const updateProductService = async (req: Request) => {
 
 	if (id) {
 		try {
-			const product = await productModel.findByIdAndUpdate(id, data, {
+			const product = await productModel.findOneAndUpdate({ id }, data, {
 				new: true,
 			});
 			return product;
@@ -58,7 +61,7 @@ const deleteProductService = async (req: Request) => {
 
 	if (id) {
 		try {
-			await productModel.findByIdAndDelete(id);
+			await productModel.findOneAndDelete({ id });
 			return `product with id: "${id}" was removed succesfully`;
 		} catch (error) {
 			throw new Error(`${error}`);

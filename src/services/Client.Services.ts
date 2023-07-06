@@ -3,6 +3,17 @@ import ClientModel from "../models/Client.Model";
 import { hashpassword } from "../utils/bcryptUtils";
 import { Client } from "../interfaces/Client.interface";
 
+const createClientsService = async (req: Request) => {
+	const data = req.body;
+
+	try {
+		const clients = await ClientModel.insertMany(data);
+		return clients;
+	} catch (error: unknown) {
+		throw new Error(`${error}`);
+	}
+};
+
 const getClientService = async (req: Request) => {
 	const id = req.params.id;
 	const populated = req.query.populated;
@@ -27,17 +38,6 @@ const getClientService = async (req: Request) => {
 	}
 
 	throw new Error("no 'id' was provided");
-};
-
-const createClientsService = async (req: Request) => {
-	const data = req.body;
-
-	try {
-		const clients = await ClientModel.insertMany(data);
-		return clients;
-	} catch (error: unknown) {
-		throw new Error(`${error}`);
-	}
 };
 
 const getClientsService = async (req: Request) => {

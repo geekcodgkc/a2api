@@ -31,6 +31,7 @@ const ProductSchema = new Schema<Product>(
 		id: {
 			type: String,
 			required: true,
+			unique: true,
 		},
 		name: {
 			type: String,

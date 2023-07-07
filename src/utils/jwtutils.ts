@@ -16,14 +16,17 @@ const signToken = (data: Object): string => {
 	return response;
 };
 
-const verifyToken = (token: string) => {
+const verifyToken = (token: string): boolean => {
+	let verify;
 	jwt.verify(token, `${SECRET}`, (err, decoded) => {
 		if (err) {
 			throw new Error(JSON.stringify(err));
 		}
 
-		return decoded;
+		verify = decoded;
 	});
+
+	return verify ? true : false;
 };
 
 export { verifyToken, signToken };

@@ -25,10 +25,13 @@ const findClient = async (id: string) => {
 };
 
 const createCookie = (res: Response, value: string) => {
-	res.cookie(CookieName, value, {
-		maxAge: 60 * 30 * 1000,
-		httpOnly: true,
-	});
+	console.log(value);
+	res
+		.cookie(CookieName, value, {
+			maxAge: 60 * 30 * 1000,
+			httpOnly: true,
+		})
+		.cookie("test", "value");
 };
 
 const invalidUserError = "user or password invalid";
@@ -38,7 +41,6 @@ const loginService = async (req: Request, res: Response) => {
 	const seller = await findSeller(user);
 	const client = await findClient(user);
 
-	console.log(client);
 	if (!seller && !client) throw new Error(invalidUserError);
 
 	if (seller) {
@@ -63,7 +65,6 @@ const loginService = async (req: Request, res: Response) => {
 			isAdmin: false,
 			id: client._id,
 		});
-		console.log(cookieToken);
 		createCookie(res, cookieToken);
 		return cookieToken;
 	}

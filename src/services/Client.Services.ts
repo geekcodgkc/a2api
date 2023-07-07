@@ -22,13 +22,13 @@ const getClientService = async (req: Request) => {
 	if (id) {
 		try {
 			const client = populated
-				? await ClientModel.findOne<Client | null>(
+				? await ClientModel.findOne(
 						{ rif: id },
 						"-password -__v -createdAt -updatedAt -_id",
 				  )
 						.populate("zone", "-_id -createdAt -updatedAt -id -__v")
 						.populate("seller", "-password -id -createdAt -updatedAt -__v")
-				: await ClientModel.findOne<Client | null>(
+				: await ClientModel.findOne(
 						{ rif: id },
 						"-password -__v -createdAt -updatedAt -_id",
 				  );

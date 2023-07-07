@@ -37,7 +37,7 @@ const createOrder = async (req: Request, res: Response) => {
 
 const updateOrder = async (req: Request, res: Response) => {
 	try {
-		const response = await createOrderService(req);
+		const response = await updateOrderService(req);
 		res.json(response);
 	} catch (error) {
 		handleErrorHttp(res, "hubo un error", error);
@@ -46,7 +46,7 @@ const updateOrder = async (req: Request, res: Response) => {
 
 const deleteOrder = async (req: Request, res: Response) => {
 	try {
-		const response = await createOrderService(req);
+		const response = await deleteOrderService(req);
 		res.json({ message: response });
 	} catch (error) {
 		handleErrorHttp(res, "hubo un error", error);

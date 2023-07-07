@@ -76,12 +76,15 @@ const registerClientService = async (req: Request) => {
 const updateClientService = async (req: Request) => {
 	const data = req.body;
 	const id = req.params.id;
+	if (data.password) {
+		const password = await hashpassword(data.password);
+		data.password = password;
+	}
 
 	if (id) {
 		try {
-			const client = await ClientModel.findByIdAndUpdate({ rif: id }, data, {
+			const client = await ClientModel.findOneAndUpdate({ rif: id }, data, {
 				new: true,
-				fields: "-password",
 			}).populate(["zone", "seller"]);
 			const message = {
 				data: client ? client.toJSON() : client,

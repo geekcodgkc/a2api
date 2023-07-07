@@ -17,7 +17,7 @@ const findSeller = async (id: string) => {
 
 const findClient = async (id: string) => {
 	try {
-		const client = await clientModel.findOne({ id });
+		const client = await clientModel.findOne({ rif: id });
 		return client;
 	} catch (error) {
 		throw new Error(JSON.stringify(error));
@@ -38,6 +38,7 @@ const loginService = async (req: Request, res: Response) => {
 	const seller = await findSeller(user);
 	const client = await findClient(user);
 
+	console.log(client);
 	if (!seller && !client) throw new Error(invalidUserError);
 
 	if (seller) {

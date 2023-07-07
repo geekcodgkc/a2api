@@ -6,13 +6,14 @@ import {
 	deleteSeller,
 	updateSeller,
 } from "../controllers/Seller.controller";
+import handleAuth from "../middleware/authMiddleware";
 
 const router = Router();
 
-router.get("/", getSellers);
-router.get("/:id", getSeller);
-router.post("/", createSeller);
-router.put("/:id", updateSeller);
-router.delete("/:id", deleteSeller);
+router.get("/", handleAuth, getSellers);
+router.get("/:id", handleAuth, getSeller);
+router.post("/", handleAuth, createSeller);
+router.put("/:id", handleAuth, updateSeller);
+router.delete("/:id", handleAuth, deleteSeller);
 
 export { router };

@@ -1,7 +1,6 @@
 import { Request } from "express";
 import ClientModel from "../models/Client.Model";
 import { hashpassword } from "../utils/bcryptUtils";
-import { Client } from "../interfaces/Client.interface";
 import sendDataToSocket from "../utils/sendDataToSocket";
 
 const createClientsService = async (req: Request) => {
@@ -65,6 +64,7 @@ const registerClientService = async (req: Request) => {
 		const password = await hashpassword(data.password);
 		data.password = password;
 		const client = await ClientModel.create(data);
+		await client.populate("seller");
 		const message = { data: client.toJSON(), type: "client" };
 		sendDataToSocket("data", "POST", message);
 		return client;

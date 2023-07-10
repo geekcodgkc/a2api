@@ -25,7 +25,6 @@ const findClient = async (id: string) => {
 };
 
 const createCookie = (res: Response, value: string) => {
-	console.log(value);
 	res.cookie(CookieName, value, {
 		maxAge: 60 * 30 * 1000,
 		httpOnly: true,

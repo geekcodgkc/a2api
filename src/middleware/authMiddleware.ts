@@ -8,6 +8,7 @@ const handleAuth = async (req: Request, res: Response, next: NextFunction) => {
 	const token = process.env.TOKEN;
 
 	const extractBearer = authorization ? authorization.split(" ").pop() : null;
+	// buscar cookie entre las muchas que puedan llegar de la peticion
 	const extractCookie = cookie
 		?.split(";")
 		.find((Element) => Element.includes("token"));

@@ -1,7 +1,6 @@
 import api from "../api";
 
 const sendData = async (route: string, method: string, data: object) => {
-	console.log("methos", method);
 	switch (method) {
 		case "POST":
 			api.post(`/${route}`, data);

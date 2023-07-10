@@ -14,8 +14,11 @@ const handleAuth = async (req: Request, res: Response, next: NextFunction) => {
 	}
 
 	if (!extractBearer && !cookieToken) {
+		next();
+		/*
 		res.status(401);
 		res.json({ error: "no token or cookie for auth" });
+		*/
 		return;
 	}
 

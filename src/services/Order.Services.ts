@@ -1,5 +1,6 @@
 import { Request } from "express";
 import orderModel from "../models/Order.Model";
+import sendDataToSocket from "../utils/sendDataToSocket";
 
 const getOrderService = async (req: Request) => {
 	const id = req.params.id;
@@ -65,6 +66,14 @@ const createOrderService = async (req: Request) => {
 	const data = req.body;
 	try {
 		const order = await orderModel.create(data);
+		await order.populate("client");
+		const message = {
+			data: order.toJSON(),
+			type: "order",
+		};
+		if (order) {
+			sendDataToSocket("data", "POST", message);
+		}
 		return order;
 	} catch (error) {
 		throw new Error(`${error}`);
@@ -81,7 +90,16 @@ const updateOrderService = async (req: Request) => {
 				.findByIdAndUpdate(id, data, {
 					new: true,
 				})
-				.populate(["products", "product.product"]);
+				.populate("products", "-_id")
+				.populate("products.product");
+
+			if (order) {
+				const message = {
+					data: order.toJSON(),
+					type: "order",
+				};
+				sendDataToSocket(`data/${order._id}`, "PUT", message);
+			}
 			return order;
 		} catch (error) {
 			throw new Error(`${error}`);

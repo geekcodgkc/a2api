@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 
-type Price = [number, number, number, number];
+export interface Price extends mongoose.Document {
+	p1: number;
+	p2: number;
+	p3: number;
+	p4: number;
+}
 
 enum presentations {
 	caja15kg = "caja15kg",
@@ -18,4 +23,5 @@ export interface Product extends mongoose.Document {
 	department: string | null;
 	presentation: presentations;
 	netWeight: number;
+	status: boolean;
 }

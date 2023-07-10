@@ -5,14 +5,17 @@ import {
 	registerClient,
 	updateClient,
 	deleteClient,
+	createClients,
 } from "../controllers/Client.controller";
+import handleAuth from "../middleware/authMiddleware";
 
 const router = Router();
 
-router.get("/", getClients);
-router.get("/:id", getClient);
-router.post("/register", registerClient);
-router.put("/:id", updateClient);
-router.delete("/:id", deleteClient);
+router.get("/", handleAuth, getClients);
+router.get("/:id", handleAuth, getClient);
+router.post("/register", handleAuth, registerClient);
+router.put("/:id", handleAuth, updateClient);
+router.delete("/:id", handleAuth, deleteClient);
+router.post("/", handleAuth, createClients);
 
 export { router };

@@ -1,5 +1,6 @@
 import { Request } from "express";
 import zoneModel from "../models/Zone.Model";
+import { noId } from "../config/ErrorTypes";
 
 const getZoneService = async (req: Request) => {
 	const id = req.params.id;
@@ -13,7 +14,7 @@ const getZoneService = async (req: Request) => {
 		}
 	}
 
-	throw new Error("no 'id' was provided");
+	throw new Error(noId);
 };
 
 const getZonesService = async (req: Request) => {
@@ -50,7 +51,7 @@ const updateZoneService = async (req: Request) => {
 		}
 	}
 
-	throw new Error('"id" was required');
+	throw new Error(noId);
 };
 
 const deleteZoneService = async (req: Request) => {
@@ -65,7 +66,7 @@ const deleteZoneService = async (req: Request) => {
 		}
 	}
 
-	throw new Error('"id"was required');
+	throw new Error(noId);
 };
 
 export {

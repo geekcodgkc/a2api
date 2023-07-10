@@ -17,7 +17,7 @@ const findSeller = async (id: string) => {
 
 const findClient = async (id: string) => {
 	try {
-		const client = await clientModel.findOne({ id });
+		const client = await clientModel.findOne({ rif: id });
 		return client;
 	} catch (error) {
 		throw new Error(JSON.stringify(error));
@@ -25,6 +25,7 @@ const findClient = async (id: string) => {
 };
 
 const createCookie = (res: Response, value: string) => {
+	console.log(value);
 	res.cookie(CookieName, value, {
 		maxAge: 60 * 30 * 1000,
 		httpOnly: true,
@@ -62,7 +63,6 @@ const loginService = async (req: Request, res: Response) => {
 			isAdmin: false,
 			id: client._id,
 		});
-		console.log(cookieToken);
 		createCookie(res, cookieToken);
 		return cookieToken;
 	}

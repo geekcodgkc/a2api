@@ -6,13 +6,14 @@ import {
 	updateOrder,
 	deleteOrder,
 } from "../controllers/Order.controller";
+import handleAuth from "../middleware/authMiddleware";
 
 const router = Router();
 
-router.get("/", getOrders);
-router.get("/:id", getOrder);
-router.post("/", createOrder);
-router.put("/:id", updateOrder);
-router.delete("/:id", deleteOrder);
+router.get("/", handleAuth, getOrders);
+router.get("/:id", handleAuth, getOrder);
+router.post("/", handleAuth, createOrder);
+router.put("/:id", handleAuth, updateOrder);
+router.delete("/:id", handleAuth, deleteOrder);
 
 export { router };

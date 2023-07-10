@@ -6,13 +6,14 @@ import {
 	updateZone,
 	deleteZone,
 } from "../controllers/Zone.controller";
+import handleAuth from "../middleware/authMiddleware";
 
 const router = Router();
 
-router.get("/", getZones);
-router.get("/:id", getZone);
-router.post("/", createZone);
-router.put("/:id", updateZone);
-router.delete("/:id", deleteZone);
+router.get("/", handleAuth, getZones);
+router.get("/:id", handleAuth, getZone);
+router.post("/", handleAuth, createZone);
+router.put("/:id", handleAuth, updateZone);
+router.delete("/:id", handleAuth, deleteZone);
 
 export { router };

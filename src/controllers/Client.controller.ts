@@ -6,6 +6,7 @@ import {
 	updateClientService,
 	deleteClientService,
 	registerClientService,
+	createClientsService,
 } from "../services/Client.Services";
 
 const getClient = async (req: Request, res: Response) => {
@@ -53,4 +54,20 @@ const deleteClient = async (req: Request, res: Response) => {
 	}
 };
 
-export { getClient, getClients, registerClient, updateClient, deleteClient };
+const createClients = async (req: Request, res: Response) => {
+	try {
+		const client = await createClientsService(req);
+		res.json(client);
+	} catch (error) {
+		handleErrorHttp(res, "hubo un error", error);
+	}
+};
+
+export {
+	getClient,
+	getClients,
+	registerClient,
+	updateClient,
+	deleteClient,
+	createClients,
+};

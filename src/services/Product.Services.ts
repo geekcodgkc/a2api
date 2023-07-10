@@ -6,7 +6,10 @@ const getProductService = async (req: Request) => {
 
 	if (id) {
 		try {
-			const product = await productModel.findById(id);
+			const product = await productModel.findOne(
+				{ id },
+				"-__v -createdAt -updatedAt -prices._id",
+			);
 			return product;
 		} catch (error: unknown) {
 			throw new Error(`${error}`);
@@ -18,7 +21,10 @@ const getProductService = async (req: Request) => {
 
 const getProductsService = async (req: Request) => {
 	try {
-		const product = productModel.find();
+		const product = productModel.find(
+			{},
+			"-__v -createdAt -updatedAt -prices._id",
+		);
 		return product;
 	} catch (error) {
 		throw new Error(`${error}`);
@@ -28,7 +34,7 @@ const getProductsService = async (req: Request) => {
 const createProductService = async (req: Request) => {
 	const data = req.body;
 	try {
-		const product = await productModel.create(data);
+		const product = await productModel.insertMany(data);
 		return product;
 	} catch (error) {
 		throw new Error(`${error}`);
@@ -41,8 +47,17 @@ const updateProductService = async (req: Request) => {
 
 	if (id) {
 		try {
-			const product = await productModel.findByIdAndUpdate(id, data, {
+			const current = await productModel.findOne({ id });
+			if (!current) throw new Error("Product not found");
+			const parsed = current.toJSON();
+			const updated = {
+				...parsed,
+				...data,
+				prices: { ...parsed.prices, ...data.prices },
+			};
+			const product = await productModel.findOneAndUpdate({ id }, updated, {
 				new: true,
+				fields: "-__v -updatedAt -createdAt -prices._id",
 			});
 			return product;
 		} catch (error) {
@@ -58,7 +73,7 @@ const deleteProductService = async (req: Request) => {
 
 	if (id) {
 		try {
-			await productModel.findByIdAndDelete(id);
+			await productModel.findOneAndDelete({ id });
 			return `product with id: "${id}" was removed succesfully`;
 		} catch (error) {
 			throw new Error(`${error}`);

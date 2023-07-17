@@ -2,12 +2,42 @@ import { Request } from "express";
 import ClientModel from "../models/Client.Model";
 import { hashpassword } from "../utils/bcryptUtils";
 import sendDataToSocket from "../utils/sendDataToSocket";
+import { ClientForm } from "../interfaces/Client.interface";
 
-const createClientsService = async (req: Request) => {
+interface clientsRequest<T> extends Request {
+	body: T;
+}
+
+const dataToArray = async (data: ClientForm[]) => {
+	const clientsData: object[] | [] = [data];
+	clientsData.pop();
+
+	for (let i = 0; i < data.length; i++) {
+		const { password, rif, name, address, email, zone, phone, contact } =
+			data[i];
+		const passwordhash: string = await hashpassword(password);
+		clientsData.push({
+			rif,
+			name,
+			address,
+			email,
+			zone,
+			phone,
+			contact,
+			password: passwordhash,
+		});
+	}
+
+	return clientsData;
+};
+
+const createClientsService = async (req: clientsRequest<ClientForm>) => {
 	const data = req.body;
+	const rbody = typeof data === "object" ? [data] : data;
+	const clientsData = await dataToArray(rbody);
 
 	try {
-		const clients = await ClientModel.insertMany(data);
+		const clients = await ClientModel.insertMany(clientsData);
 		return clients;
 	} catch (error: unknown) {
 		throw new Error(`${error}`);
@@ -62,8 +92,8 @@ const registerClientService = async (req: Request) => {
 	const data = req.body;
 	try {
 		const password = await hashpassword(data.password);
-		data.password = password;
-		const client = await ClientModel.create(data);
+		const clientData = { ...data, password };
+		const client = await ClientModel.create(clientData);
 		await client.populate("seller");
 		const message = { data: client.toJSON(), type: "client" };
 		sendDataToSocket("data", "POST", message);

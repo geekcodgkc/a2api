@@ -9,6 +9,17 @@ enum Condition {
 	p4 = 4,
 }
 
+export interface ClientForm {
+	rif: string;
+	name: string;
+	address: string;
+	email: string;
+	zone: Zone | string;
+	phone: number[];
+	contact: string;
+	password: string;
+}
+
 export interface Client extends mongoose.Document {
 	rif: string;
 	name: string;

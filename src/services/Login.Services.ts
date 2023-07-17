@@ -47,7 +47,8 @@ const loginService = async (req: Request, res: Response) => {
 		const cookieToken = signToken({
 			email: seller.email,
 			isAdmin: true,
-			id: seller._id,
+			id: seller.id,
+			_id: seller._id,
 		});
 		createCookie(res, cookieToken);
 		return cookieToken;
@@ -60,7 +61,8 @@ const loginService = async (req: Request, res: Response) => {
 		const cookieToken = signToken({
 			email: client.email,
 			isAdmin: false,
-			id: client._id,
+			id: client.id,
+			_id: client._id,
 		});
 		createCookie(res, cookieToken);
 		return cookieToken;

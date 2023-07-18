@@ -61,7 +61,7 @@ const loginService = async (req: Request, res: Response) => {
 		const cookieToken = signToken({
 			email: client.email,
 			isAdmin: false,
-			id: client.id,
+			id: client.rif,
 			_id: client._id,
 		});
 		createCookie(res, cookieToken);

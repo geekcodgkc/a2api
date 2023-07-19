@@ -66,7 +66,7 @@ const createOrderService = async (req: Request) => {
 	const data = req.body;
 	try {
 		const order = await orderModel.create(data);
-		await order.populate("client");
+		await order.populate(["client", "products.product"]);
 		const message = {
 			data: order.toJSON(),
 			type: "order",

@@ -62,6 +62,28 @@ const getOrdersService = async (req: Request) => {
 	}
 };
 
+const getOrdersByClientService = async (req: Request) => {
+	const id = req.params.id;
+
+	try {
+		const order = await orderModel
+			.find({ client: id })
+			.populate("products.product", "-products.product.__v")
+			.populate({
+				path: "client",
+				options: {
+					password: 0,
+				},
+				populate: {
+					path: "zone",
+				},
+			});
+		return order;
+	} catch (error: unknown) {
+		throw new Error(`${error}`);
+	}
+};
+
 const createOrderService = async (req: Request) => {
 	const data = req.body;
 	try {
@@ -130,4 +152,5 @@ export {
 	createOrderService,
 	updateOrderService,
 	deleteOrderService,
+	getOrdersByClientService,
 };

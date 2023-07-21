@@ -6,6 +6,7 @@ import {
 	createOrderService,
 	updateOrderService,
 	deleteOrderService,
+	getOrdersByClientService,
 } from "../services/Order.Services";
 
 const getOrder = async (req: Request, res: Response) => {
@@ -20,6 +21,15 @@ const getOrder = async (req: Request, res: Response) => {
 const getOrders = async (req: Request, res: Response) => {
 	try {
 		const response = await getOrdersService(req);
+		res.json(response);
+	} catch (error) {
+		handleErrorHttp(res, "hubo un error", error);
+	}
+};
+
+const getOrdersByClient = async (req: Request, res: Response) => {
+	try {
+		const response = await getOrdersByClientService(req);
 		res.json(response);
 	} catch (error) {
 		handleErrorHttp(res, "hubo un error", error);
@@ -53,4 +63,11 @@ const deleteOrder = async (req: Request, res: Response) => {
 	}
 };
 
-export { getOrder, getOrders, createOrder, updateOrder, deleteOrder };
+export {
+	getOrder,
+	getOrders,
+	createOrder,
+	updateOrder,
+	deleteOrder,
+	getOrdersByClient,
+};

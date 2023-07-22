@@ -64,6 +64,10 @@ const OrderSchema = new Schema<Order>(
 			required: true,
 			max: 120,
 		},
+		orderNumber: {
+			type: Number,
+			required: true,
+		},
 	},
 	{
 		timestamps: true,

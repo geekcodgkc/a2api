@@ -42,6 +42,8 @@ const getOrdersService = async (req: Request) => {
 	const populated = req.query.populated;
 
 	try {
+		const count = await orderModel.countDocuments();
+		console.log(count);
 		const order = populated
 			? await orderModel
 					.find()
@@ -87,6 +89,8 @@ const getOrdersByClientService = async (req: Request) => {
 const createOrderService = async (req: Request) => {
 	const data = req.body;
 	try {
+		const count = await orderModel.countDocuments();
+		data.orderNumber = count + 1;
 		const order = await orderModel.create(data);
 		await order.populate(["client", "products.product"]);
 		const message = {

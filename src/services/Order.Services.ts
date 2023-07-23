@@ -47,6 +47,7 @@ const getOrdersService = async (req: Request) => {
 		const order = populated
 			? await orderModel
 					.find()
+					.sort({ createdAt: "desc" })
 					.populate("products.product", "-products.product.__v")
 					.populate({
 						path: "client",
@@ -57,7 +58,10 @@ const getOrdersService = async (req: Request) => {
 							path: "zone",
 						},
 					})
-			: await orderModel.find().populate("products.product", "-product.__v");
+			: await orderModel
+					.find()
+					.sort({ createdAt: "desc" })
+					.populate("products.product", "-product.__v");
 		return order;
 	} catch (error: unknown) {
 		throw new Error(`${error}`);
@@ -70,6 +74,7 @@ const getOrdersByClientService = async (req: Request) => {
 	try {
 		const order = await orderModel
 			.find({ client: id })
+			.sort({ createdAt: "desc" })
 			.populate("products.product", "-products.product.__v")
 			.populate({
 				path: "client",

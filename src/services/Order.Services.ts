@@ -42,9 +42,12 @@ const getOrdersService = async (req: Request) => {
 	const populated = req.query.populated;
 
 	try {
+		const count = await orderModel.countDocuments();
+		console.log(count);
 		const order = populated
 			? await orderModel
 					.find()
+					.sort({ createdAt: "desc" })
 					.populate("products.product", "-products.product.__v")
 					.populate({
 						path: "client",
@@ -55,7 +58,33 @@ const getOrdersService = async (req: Request) => {
 							path: "zone",
 						},
 					})
-			: await orderModel.find().populate("products.product", "-product.__v");
+			: await orderModel
+					.find()
+					.sort({ createdAt: "desc" })
+					.populate("products.product", "-product.__v");
+		return order;
+	} catch (error: unknown) {
+		throw new Error(`${error}`);
+	}
+};
+
+const getOrdersByClientService = async (req: Request) => {
+	const id = req.params.id;
+
+	try {
+		const order = await orderModel
+			.find({ client: id })
+			.sort({ createdAt: "desc" })
+			.populate("products.product", "-products.product.__v")
+			.populate({
+				path: "client",
+				options: {
+					password: 0,
+				},
+				populate: {
+					path: "zone",
+				},
+			});
 		return order;
 	} catch (error: unknown) {
 		throw new Error(`${error}`);
@@ -65,6 +94,8 @@ const getOrdersService = async (req: Request) => {
 const createOrderService = async (req: Request) => {
 	const data = req.body;
 	try {
+		const count = await orderModel.countDocuments();
+		data.orderNumber = count + 1;
 		const order = await orderModel.create(data);
 		await order.populate(["client", "products.product"]);
 		const message = {
@@ -130,4 +161,5 @@ export {
 	createOrderService,
 	updateOrderService,
 	deleteOrderService,
+	getOrdersByClientService,
 };

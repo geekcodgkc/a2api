@@ -24,4 +24,5 @@ export interface Order extends mongoose.Document {
 	orderBase: number;
 	status: Status;
 	shippingAddress: string;
+	orderNumber: number;
 }

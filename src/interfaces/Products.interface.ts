@@ -30,6 +30,11 @@ enum presentations {
 	BULTO12X850ML = "BULTO 12X850ML",
 	PAILA18LT = "PAILA 18LT",
 	PAILA15LT = "PAILA 15LT",
+	CAJA = "CAJA",
+	PAILA = "PAILA",
+	BULTO = "BULTO",
+	CARBOYA = "CARBOYA",
+	KG = "KG"
 }
 
 export interface Product extends mongoose.Document {

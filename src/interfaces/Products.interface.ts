@@ -7,6 +7,12 @@ export interface Price extends mongoose.Document {
 	p4: number;
 }
 
+enum Tax {
+	tax1 = 0,
+	tax2 = 8,
+	tax3 = 16,
+}
+
 enum presentations {
 	caja15kg = "caja15kg",
 	carboya = "carboya",
@@ -34,4 +40,5 @@ export interface Product extends mongoose.Document {
 	presentation: presentations;
 	netWeight: number;
 	status: boolean;
+	tax: Tax
 }

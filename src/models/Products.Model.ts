@@ -39,6 +39,11 @@ const ProductSchema = new Schema<Product>(
 		},
 		prices: PricesSchemas,
 		department: String,
+		tax: {
+			type: Number,
+			required: true,
+			enum: [0, 8, 16] 
+		},
 		presentation: {
 			type: String,
 			enum: [

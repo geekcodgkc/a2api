@@ -34,7 +34,8 @@ enum presentations {
 	PAILA = "PAILA",
 	BULTO = "BULTO",
 	CARBOYA = "CARBOYA",
-	KG = "KG"
+	KG = "KG",
+	UND = "UND"
 }
 
 export interface Product extends mongoose.Document {

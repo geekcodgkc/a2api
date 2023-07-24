@@ -63,6 +63,11 @@ const ProductSchema = new Schema<Product>(
 				"BULTO 12X850ML",
 				"PAILA 18LT",
 				"PAILA 15LT",
+				"CAJA",
+				"PAILA",
+				"BULTO",
+				"CARBOYA",
+				"KG"
 			],
 			required: true,
 		},

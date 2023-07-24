@@ -67,7 +67,8 @@ const ProductSchema = new Schema<Product>(
 				"PAILA",
 				"BULTO",
 				"CARBOYA",
-				"KG"
+				"KG",
+				"UND"
 			],
 			required: true,
 		},

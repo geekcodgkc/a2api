@@ -1,6 +1,6 @@
 {
-	"name": "a2connector",
-	"version": "0.0.1",
+	"name": "sales-force-api",
+	"version": "1.0.0",
 	"description": "a2 connector using api",
 	"main": "index.js",
 	"scripts": {
@@ -9,10 +9,8 @@
 		"build": "tsc",
 		"start": "ts-node src/app.ts"
 	},
-	"keywords": [
-		"a2"
-	],
-	"author": "",
+	"keywords": ["a2", "salesForceApp"],
+	"author": "GeekCod",
 	"license": "ISC",
 	"dependencies": {
 		"@netlify/functions": "^1.6.0",

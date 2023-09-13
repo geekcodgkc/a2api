@@ -1,6 +1,5 @@
 import { Client } from "../interfaces/Client.interface";
 import { Schema, model } from "mongoose";
-import ZoneModel from "./Zone.Model";
 import SellerModel from "./Seller.Model";
 
 const ValidateLen = (length: number[]) => {
@@ -28,11 +27,6 @@ const ClientSchema = new Schema<Client>(
 			required: true,
 			unique: true,
 		},
-		zone: {
-			type: Schema.Types.ObjectId,
-			ref: ZoneModel,
-			required: true,
-		},
 		phone: {
 			type: [String],
 			required: true,
@@ -42,24 +36,12 @@ const ClientSchema = new Schema<Client>(
 			type: String,
 			required: true,
 		},
-		conditionPrice: {
-			type: Number,
-			enum: [1, 2, 3, 4],
-			required: true,
-			default: 1,
-		},
-		seller: {
-			type: Schema.Types.ObjectId,
-			ref: SellerModel,
-		},
-		taxpayer: {
-			type: Boolean,
-			default: false,
-		},
-		verified: {
-			type: Boolean,
-			default: false,
-		},
+		sellers: [
+			{
+				type: Schema.Types.ObjectId,
+				ref: SellerModel,
+			},
+		],
 		password: {
 			type: String,
 			required: true,

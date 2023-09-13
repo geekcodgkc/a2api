@@ -1,50 +1,34 @@
 import mongoose from "mongoose";
+import { Department } from "./Deparmet.interface";
+import { Client } from "./Client.interface";
 
 export interface Price extends mongoose.Document {
-	p1: number;
-	p2: number;
-	p3: number;
-	p4: number;
-}
-
-enum Tax {
-	tax1 = 0,
-	tax2 = 8,
-	tax3 = 16,
-}
-
-enum presentations {
-	caja15kg = "caja15kg",
-	carboya = "carboya",
-	tina = "tina",
-	paila = "paila",
-	botella = "botella",
-	granel = "granel",
-	CAJA05KG = "CAJA 05KG",
-	CAJA10KG = "CAJA 10KG",
-	CAJA15KG = "CAJA 15KG",
-	CAJA24X200GR = "CAJA 24X200GR",
-	CAJA24X250GR = "CAJA 24X250GR",
-	BULTO12X1LT = "BULTO 12X1LT",
-	BULTO24X500ML = "BULTO 24X500ML",
-	BULTO12X850ML = "BULTO 12X850ML",
-	PAILA18LT = "PAILA 18LT",
-	PAILA15LT = "PAILA 15LT",
-	CAJA = "CAJA",
-	PAILA = "PAILA",
-	BULTO = "BULTO",
-	CARBOYA = "CARBOYA",
-	KG = "KG",
-	UND = "UND"
+	p1: {
+		price: number;
+		range: number;
+	};
+	p2: {
+		price: number;
+		range: number;
+	};
+	p3: {
+		price: number;
+		range: number;
+	};
+	p4: {
+		price: number;
+		range: number;
+	};
 }
 
 export interface Product extends mongoose.Document {
 	id: string;
+	clientID: string | Client;
 	name: string;
 	prices: Price;
-	department: string | null;
-	presentation: presentations;
-	netWeight: number;
+	department: [string] | [Department] | [];
+	qty: string;
 	status: boolean;
-	tax: Tax
+	description: string;
+	tax: number;
 }

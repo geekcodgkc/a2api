@@ -4,5 +4,8 @@
 [*] create customer controllers
 [*] create customer routes
 [ ] create customer search based on clients id
+[ ] update login method
+[ ] add new jwt data to check the client info
+[ ] handle relogin and reload of the token
 [ ] comunicate with socket the new info
 [*] add customer refences to the clients model

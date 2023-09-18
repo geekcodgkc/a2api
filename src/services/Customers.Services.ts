@@ -1,8 +1,7 @@
 import { Request } from "express";
 import CustomerModel from "../models/Customer.Model";
-import { Customer } from "../interfaces/Customers.interface";
 
-const createCustomer = async (req: Request) => {
+const createCustomerService = async (req: Request) => {
 	const body = req.body;
 
 	try {
@@ -13,7 +12,7 @@ const createCustomer = async (req: Request) => {
 	}
 };
 
-const getCustomer = async (req: Request) => {
+const getCustomerService = async (req: Request) => {
 	const id = req.params.id;
 	const populated = req.query.populated;
 
@@ -27,7 +26,7 @@ const getCustomer = async (req: Request) => {
 	}
 };
 
-const getCustomers = async (req: Request) => {
+const getCustomersService = async (req: Request) => {
 	const limit = req.query.limit?.toString();
 	const offset = req.query.offset?.toString();
 
@@ -44,7 +43,7 @@ const getCustomers = async (req: Request) => {
 	}
 };
 
-const deleteCustomer = async (req: Request) => {
+const deleteCustomerService = async (req: Request) => {
 	const id = req.params.id;
 
 	try {
@@ -55,7 +54,7 @@ const deleteCustomer = async (req: Request) => {
 	}
 };
 
-const updateCustomer = async (req: Request) => {
+const updateCustomerService = async (req: Request) => {
 	const id = req.params.id;
 	const data = req.body;
 
@@ -70,9 +69,9 @@ const updateCustomer = async (req: Request) => {
 };
 
 export {
-	createCustomer,
-	updateCustomer,
-	getCustomers,
-	getCustomer,
-	deleteCustomer,
+	createCustomerService,
+	updateCustomerService,
+	getCustomersService,
+	getCustomerService,
+	deleteCustomerService,
 };

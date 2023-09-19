@@ -86,7 +86,7 @@ const deleteSellerService = async (req: Request) => {
 	if (id) {
 		try {
 			await sellerModel.findByIdAndDelete(id);
-			return `seller with id: "${id}" was removed succesfully`;
+			return `seller with id: '${id}' was removed succesfully`;
 		} catch (error) {
 			throw new Error(`${error}`);
 		}

@@ -1,6 +1,6 @@
 {
 	"name": "sales-force-api",
-	"version": "1.0.0",
+	"version": "2.1.4",
 	"description": "a2 connector using api",
 	"main": "index.js",
 	"scripts": {

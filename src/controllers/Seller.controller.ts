@@ -19,7 +19,7 @@ const getSeller = async (req: Request, res: Response) => {
 
 const getSellers = async (req: Request, res: Response) => {
 	try {
-		const seller = await getSellersService();
+		const seller = await getSellersService(req);
 		res.json(seller);
 	} catch (error) {
 		handleErrorHttp(res, "hubo un error", error);

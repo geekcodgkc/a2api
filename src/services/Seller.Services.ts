@@ -23,13 +23,15 @@ const getSellerService = async (req: Request) => {
 	throw new Error(noId);
 };
 
-const getSellersService = async () => {
+const getSellersService = async (req: Request) => {
 	try {
-		const seller = sellerModel.find(
-			{},
-			{ password: 0, __v: 0, createdAt: 0, updatedAt: 0 },
+		const CookieData = extracDataFromJwtCookie(`${req.headers.cookie}`);
+		if (!CookieData || typeof CookieData !== "object") return "cookie invalid";
+		const sellers = await ClientModel.findById(CookieData._id).populate(
+			"sellers",
 		);
-		return seller;
+		sellers?.toJSON();
+		return sellers?.sellers;
 	} catch (error) {
 		throw new Error(`${error}`);
 	}
@@ -37,28 +39,20 @@ const getSellersService = async () => {
 
 const createSellerService = async (req: Request) => {
 	const data = req.body;
-	console.log(req.headers.cookie);
 	try {
 		const CookieData = extracDataFromJwtCookie(`${req.headers.cookie}`);
-		console.log(typeof CookieData);
 		if (!CookieData || typeof CookieData !== "object") return "cookie invalid";
 		const password = await hashpassword(data.password);
 		data.password = password;
 		const seller = await sellerModel.create(data);
 		const client = await ClientModel.findById(CookieData._id);
 		seller.toJSON();
-		console.log(seller._id.toString());
 		client?.toJSON();
 
 		if (client && seller) {
 			const sellers = [...client.sellers];
 			sellers.push(seller._id.toString());
-			console.log(sellers);
-			const updatedClient = await ClientModel.findByIdAndUpdate(
-				CookieData._id,
-				{ sellers },
-			);
-			console.log(updatedClient?.populate("sellers"));
+			await ClientModel.findByIdAndUpdate(CookieData._id, { sellers });
 		}
 
 		return seller;

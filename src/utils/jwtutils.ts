@@ -45,7 +45,6 @@ const extracDataFromJwtCookie = (cookies: string) => {
 	const decoded: cookieData | null | string | JwtPayload = jwt.decode(
 		`${jwtToken}`,
 	);
-	console.log("decoded: ", decoded);
 	return decoded;
 };
 

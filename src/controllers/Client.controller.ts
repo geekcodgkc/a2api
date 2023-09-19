@@ -21,7 +21,7 @@ const getClient = async (req: Request, res: Response) => {
 const getClients = async (req: Request, res: Response) => {
 	try {
 		const clients = await getClientsService(req);
-		res.json({ clients });
+		res.json(clients);
 	} catch (error) {
 		handleErrorHttp(res, "hubo un error", error);
 	}

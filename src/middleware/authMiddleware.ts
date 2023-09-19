@@ -11,7 +11,7 @@ const handleAuth = async (req: Request, res: Response, next: NextFunction) => {
 	// buscar cookie entre las muchas que puedan llegar de la peticion
 	const extractCookie = cookie
 		?.split(";")
-		.find((Element) => Element.includes("token"));
+		.find((Element) => Element.includes("_token"));
 	if (extractCookie) {
 		cookieToken = extractCookie.split("=").pop();
 	}

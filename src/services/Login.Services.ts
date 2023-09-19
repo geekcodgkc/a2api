@@ -4,7 +4,7 @@ import clientModel from "../models/Client.Model";
 import { signToken } from "../utils/jwtutils";
 import { validateHash } from "../utils/bcryptUtils";
 
-const CookieName = "token";
+const CookieName = "_token";
 
 const findSeller = async (id: string) => {
 	try {

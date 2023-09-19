@@ -2,6 +2,8 @@ import { Request } from "express";
 import sellerModel from "../models/Seller.Model";
 import { hashpassword } from "../utils/bcryptUtils";
 import { noId } from "../config/ErrorTypes";
+import { extracDataFromJwtCookie } from "../utils/jwtutils";
+import ClientModel from "../models/Client.Model";
 
 const getSellerService = async (req: Request) => {
 	const id = req.params.id;
@@ -35,10 +37,30 @@ const getSellersService = async () => {
 
 const createSellerService = async (req: Request) => {
 	const data = req.body;
+	console.log(req.headers.cookie);
 	try {
+		const CookieData = extracDataFromJwtCookie(`${req.headers.cookie}`);
+		console.log(typeof CookieData);
+		if (!CookieData || typeof CookieData !== "object") return "cookie invalid";
 		const password = await hashpassword(data.password);
 		data.password = password;
 		const seller = await sellerModel.create(data);
+		const client = await ClientModel.findById(CookieData._id);
+		seller.toJSON();
+		console.log(seller._id.toString());
+		client?.toJSON();
+
+		if (client && seller) {
+			const sellers = [...client.sellers];
+			sellers.push(seller._id.toString());
+			console.log(sellers);
+			const updatedClient = await ClientModel.findByIdAndUpdate(
+				CookieData._id,
+				{ sellers },
+			);
+			console.log(updatedClient?.populate("sellers"));
+		}
+
 		return seller;
 	} catch (error) {
 		throw new Error(`${error}`);

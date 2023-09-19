@@ -1,5 +1,13 @@
-import jwt from "jsonwebtoken/index";
+import jwt, { JwtPayload } from "jsonwebtoken/index";
 import "dotenv/config";
+
+interface cookieData extends JwtPayload {
+	_id: string;
+	isAdmin: boolean;
+	id: string;
+	iat: number;
+	exp: number;
+}
 
 const SECRET = process.env.SECRET;
 const ALG = "HS256";
@@ -29,4 +37,16 @@ const verifyToken = (token: string): boolean => {
 	return verify ? true : false;
 };
 
-export { verifyToken, signToken };
+const extracDataFromJwtCookie = (cookies: string) => {
+	const token = cookies
+		.split(";")
+		.find((element) => element.includes("_token"));
+	const jwtToken = token?.split("=").pop();
+	const decoded: cookieData | null | string | JwtPayload = jwt.decode(
+		`${jwtToken}`,
+	);
+	console.log("decoded: ", decoded);
+	return decoded;
+};
+
+export { verifyToken, signToken, extracDataFromJwtCookie };

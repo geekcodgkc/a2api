@@ -54,9 +54,7 @@ const getClientService = async (req: Request) => {
 				? await ClientModel.findOne(
 						{ rif: id },
 						"-password -__v -createdAt -updatedAt -_id",
-				  )
-						.populate("zone", "-_id -createdAt -updatedAt -id -__v")
-						.populate("seller", "-password -id -createdAt -updatedAt -__v")
+				  ).populate("seller", "-password -id -createdAt -updatedAt -__v")
 				: await ClientModel.findOne(
 						{ rif: id },
 						"-password -__v -createdAt -updatedAt -_id",
@@ -75,9 +73,10 @@ const getClientsService = async (req: Request) => {
 
 	try {
 		const clients = populated
-			? await ClientModel.find({}, { password: 0 })
-					.populate("zone", "-_id -createdAt -updatedAt -id -__v")
-					.populate("seller", "-password -id -createdAt -updatedAt -__v")
+			? await ClientModel.find({}, { password: 0 }).populate(
+					"sellers",
+					"-password -id -createdAt -updatedAt -__v",
+			  )
 			: await ClientModel.find(
 					{},
 					{ password: 0, __V: 0, createdAt: 0, updatedAt: 0, __v: 0 },
@@ -94,7 +93,7 @@ const registerClientService = async (req: Request) => {
 		const password = await hashpassword(data.password);
 		const clientData = { ...data, password };
 		const client = await ClientModel.create(clientData);
-		await client.populate("seller");
+		await client.populate("sellers");
 		const message = { data: client.toJSON(), type: "client" };
 		sendDataToSocket("data", "POST", message);
 		return client;
@@ -115,7 +114,7 @@ const updateClientService = async (req: Request) => {
 		try {
 			const client = await ClientModel.findOneAndUpdate({ rif: id }, data, {
 				new: true,
-			}).populate(["zone", "seller"]);
+			}).populate(["sellers"]);
 			const message = {
 				data: client ? client.toJSON() : client,
 				type: "client",

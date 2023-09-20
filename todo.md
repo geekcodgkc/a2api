@@ -9,3 +9,5 @@
 [ ] handle relogin and reload of the token
 [ ] comunicate with socket the new info
 [*] add customer refences to the clients model
+[ ] get products based on the client id
+[ ] not alloud sellers to create products or other sellers

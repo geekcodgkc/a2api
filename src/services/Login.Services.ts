@@ -5,6 +5,8 @@ import { signToken } from "../utils/jwtutils";
 import { validateHash } from "../utils/bcryptUtils";
 
 const CookieName = "_token";
+const ReconnectionTokenName = "_reconnectionToken";
+const reconnectionMaxAge = 60 * 60 * 24 * 1000;
 
 const findSeller = async (id: string) => {
 	try {
@@ -24,9 +26,14 @@ const findClient = async (id: string) => {
 	}
 };
 
-const createCookie = (res: Response, value: string) => {
-	res.cookie(CookieName, value, {
-		maxAge: 60 * 30 * 1000,
+const createCookie = (
+	res: Response,
+	value: string,
+	name?: string,
+	maxAge?: number,
+) => {
+	res.cookie(name || CookieName, value, {
+		maxAge: maxAge || 60 * 30 * 1000,
 		httpOnly: true,
 	});
 };
@@ -43,14 +50,33 @@ const loginService = async (req: Request, res: Response) => {
 	if (seller) {
 		const isvalid = await validateHash(seller.password, password);
 		if (!isvalid) throw new Error(invalidUserError);
+		const clientId = await clientModel.findOne({
+			sellers: seller._id.toString(),
+		});
+
+		if (!clientId) return invalidUserError;
 
 		const cookieToken = signToken({
 			email: seller.email,
-			isAdmin: true,
+			isAdmin: false,
 			id: seller.id,
 			_id: seller._id,
+			clientId: clientId._id,
 		});
 		createCookie(res, cookieToken);
+		// creamos la cookie de reconeccion
+
+		const reconnectionToken = signToken({
+			reconnectionId: clientId._id,
+		});
+
+		createCookie(
+			res,
+			reconnectionToken,
+			ReconnectionTokenName,
+			reconnectionMaxAge,
+		);
+
 		return cookieToken;
 	}
 
@@ -60,17 +86,32 @@ const loginService = async (req: Request, res: Response) => {
 
 		const cookieToken = signToken({
 			email: client.email,
-			isAdmin: false,
+			isAdmin: true,
 			id: client.rif,
 			_id: client._id,
+			clientId: client._id,
 		});
 		createCookie(res, cookieToken);
+
+		// creamos el token de reconeccion
+		const reconnectionToken = signToken({
+			reconnectionId: client._id,
+		});
+
+		createCookie(
+			res,
+			reconnectionToken,
+			ReconnectionTokenName,
+			reconnectionMaxAge,
+		);
+
 		return cookieToken;
 	}
 };
 
 const logoutService = (res: Response) => {
 	res.clearCookie(CookieName);
+	res.clearCookie(ReconnectionTokenName);
 	return "logout successfully";
 };
 

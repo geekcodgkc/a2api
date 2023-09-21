@@ -118,9 +118,7 @@ const reloginService = async (
 	const lastData = decodeJWt(currentToken);
 	if (data && typeof data === "object") {
 		const client = await clientModel.findById(data.reconnectionId);
-		console.log(lastData);
 		if (client && lastData && typeof lastData === "object") {
-			console.log("in");
 			const cookieToken = signToken({
 				email: lastData.email,
 				isAdmin: false,

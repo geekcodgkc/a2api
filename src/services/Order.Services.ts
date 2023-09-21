@@ -43,7 +43,6 @@ const getOrdersService = async (req: Request) => {
 
 	try {
 		const count = await orderModel.countDocuments();
-		console.log(count);
 		const order = populated
 			? await orderModel
 					.find()

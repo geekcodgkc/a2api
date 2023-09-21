@@ -36,7 +36,6 @@ const handleAuth = async (req: Request, res: Response, next: NextFunction) => {
 						extractReconnectionToken,
 						extractCookie,
 					);
-					console.log("running", reloged);
 					if (reloged) {
 						next();
 						return;

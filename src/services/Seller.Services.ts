@@ -16,11 +16,11 @@ const getSellerService = async (req: Request) => {
 			);
 			return seller;
 		} catch (error: unknown) {
-			throw new Error(`${error}`);
+			throw `${error}`;
 		}
 	}
 
-	throw new Error(noId);
+	throw noId;
 };
 
 const getSellersService = async (req: Request) => {
@@ -33,7 +33,7 @@ const getSellersService = async (req: Request) => {
 		sellers?.toJSON();
 		return sellers?.sellers;
 	} catch (error) {
-		throw new Error(`${error}`);
+		throw `${error}`;
 	}
 };
 
@@ -57,7 +57,7 @@ const createSellerService = async (req: Request) => {
 
 		return seller;
 	} catch (error) {
-		throw new Error(`${error}`);
+		throw `${error}`;
 	}
 };
 
@@ -73,11 +73,11 @@ const updateSellerService = async (req: Request) => {
 			});
 			return seller;
 		} catch (error) {
-			throw new Error(`${error}`);
+			throw `${error}`;
 		}
 	}
 
-	throw new Error(noId);
+	throw noId;
 };
 
 const deleteSellerService = async (req: Request) => {
@@ -88,11 +88,11 @@ const deleteSellerService = async (req: Request) => {
 			await sellerModel.findByIdAndDelete(id);
 			return `seller with id: '${id}' was removed succesfully`;
 		} catch (error) {
-			throw new Error(`${error}`);
+			throw `${error}`;
 		}
 	}
 
-	throw new Error(noId);
+	throw noId;
 };
 
 export {

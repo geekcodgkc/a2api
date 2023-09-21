@@ -40,7 +40,7 @@ const createClientsService = async (req: clientsRequest<ClientForm>) => {
 		const clients = await ClientModel.insertMany(clientsData);
 		return clients;
 	} catch (error: unknown) {
-		throw new Error(`${error}`);
+		throw `${error}`;
 	}
 };
 
@@ -61,11 +61,11 @@ const getClientService = async (req: Request) => {
 				  );
 			return client;
 		} catch (error: unknown) {
-			throw new Error(`${error}`);
+			throw `${error}`;
 		}
 	}
 
-	throw new Error("no 'id' was provided");
+	throw "no 'id' was provided";
 };
 
 const getClientsService = async (req: Request) => {
@@ -83,7 +83,7 @@ const getClientsService = async (req: Request) => {
 			  );
 		return clients;
 	} catch (error) {
-		throw new Error(`${error}`);
+		throw `${error}`;
 	}
 };
 
@@ -98,7 +98,7 @@ const registerClientService = async (req: Request) => {
 		sendDataToSocket("data", "POST", message);
 		return client;
 	} catch (error) {
-		throw new Error(`${error}`);
+		throw `${error}`;
 	}
 };
 
@@ -124,11 +124,11 @@ const updateClientService = async (req: Request) => {
 			}
 			return client;
 		} catch (error) {
-			throw new Error(`${error}`);
+			throw `${error}`;
 		}
 	}
 
-	throw new Error('"id" was required');
+	throw '"id" was required';
 };
 
 const deleteClientService = async (req: Request) => {
@@ -139,11 +139,11 @@ const deleteClientService = async (req: Request) => {
 			await ClientModel.findOneAndDelete({ rif: id });
 			return `client with id: "${id}" was removed succesfully`;
 		} catch (error) {
-			throw new Error(`${error}`);
+			throw `${error}`;
 		}
 	}
 
-	throw new Error('"id"was required');
+	throw '"id"was required';
 };
 
 export {

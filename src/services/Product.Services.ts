@@ -12,11 +12,11 @@ const getProductService = async (req: Request) => {
 			);
 			return product;
 		} catch (error: unknown) {
-			throw new Error(`${error}`);
+			throw `${error}`;
 		}
 	}
 
-	throw new Error("no 'id' was provided");
+	throw "no 'id' was provided";
 };
 
 const getProductsService = async (req: Request) => {
@@ -27,7 +27,7 @@ const getProductsService = async (req: Request) => {
 		);
 		return product;
 	} catch (error) {
-		throw new Error(`${error}`);
+		throw `${error}`;
 	}
 };
 
@@ -37,7 +37,7 @@ const createProductService = async (req: Request) => {
 		const product = await productModel.insertMany(data);
 		return product;
 	} catch (error) {
-		throw new Error(`${error}`);
+		throw `${error}`;
 	}
 };
 
@@ -48,7 +48,7 @@ const updateProductService = async (req: Request) => {
 	if (id) {
 		try {
 			const current = await productModel.findOne({ id });
-			if (!current) throw new Error("Product not found");
+			if (!current) throw "Product not found";
 			const parsed = current.toJSON();
 			const updated = {
 				...parsed,
@@ -61,11 +61,11 @@ const updateProductService = async (req: Request) => {
 			});
 			return product;
 		} catch (error) {
-			throw new Error(`${error}`);
+			throw `${error}`;
 		}
 	}
 
-	throw new Error('"id" was required');
+	throw '"id" was required';
 };
 
 const deleteProductService = async (req: Request) => {
@@ -76,11 +76,11 @@ const deleteProductService = async (req: Request) => {
 			await productModel.findOneAndDelete({ id });
 			return `product with id: "${id}" was removed succesfully`;
 		} catch (error) {
-			throw new Error(`${error}`);
+			throw `${error}`;
 		}
 	}
 
-	throw new Error('"id"was required');
+	throw '"id"was required';
 };
 
 export {

@@ -9,7 +9,7 @@ const hashpassword = async (password: string) => {
 		const hash = await bcrypt.hash(password, salts);
 		return hash;
 	} catch (error) {
-		throw new Error(`${error}`);
+		throw `${error}`;
 	}
 };
 
@@ -18,7 +18,7 @@ const validateHash = async (hash: string, compare: string) => {
 		const valid = bcrypt.compare(compare, hash);
 		return valid;
 	} catch (error) {
-		throw new Error(`${error}`);
+		throw `${error}`;
 	}
 };
 

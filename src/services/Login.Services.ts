@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import sellerModel from "../models/Seller.Model";
 import clientModel from "../models/Client.Model";
-import { signToken } from "../utils/jwtutils";
+import { decodeJWt, signToken } from "../utils/jwtutils";
 import { validateHash } from "../utils/bcryptUtils";
 
 const CookieName = "_token";
@@ -13,7 +13,7 @@ const findSeller = async (id: string) => {
 		const seller = await sellerModel.findOne({ id });
 		return seller;
 	} catch (error) {
-		throw new Error(JSON.stringify(error));
+		throw JSON.stringify(error);
 	}
 };
 
@@ -22,7 +22,7 @@ const findClient = async (id: string) => {
 		const client = await clientModel.findOne({ rif: id });
 		return client;
 	} catch (error) {
-		throw new Error(JSON.stringify(error));
+		throw JSON.stringify(error);
 	}
 };
 
@@ -45,11 +45,11 @@ const loginService = async (req: Request, res: Response) => {
 	const seller = await findSeller(user);
 	const client = await findClient(user);
 
-	if (!seller && !client) throw new Error(invalidUserError);
+	if (!seller && !client) throw invalidUserError;
 
 	if (seller) {
 		const isvalid = await validateHash(seller.password, password);
-		if (!isvalid) throw new Error(invalidUserError);
+		if (!isvalid) throw invalidUserError;
 		const clientId = await clientModel.findOne({
 			sellers: seller._id.toString(),
 		});
@@ -82,7 +82,7 @@ const loginService = async (req: Request, res: Response) => {
 
 	if (client) {
 		const isvalid = await validateHash(client.password, password);
-		if (!isvalid) throw new Error(invalidUserError);
+		if (!isvalid) throw invalidUserError;
 
 		const cookieToken = signToken({
 			email: client.email,
@@ -109,10 +109,47 @@ const loginService = async (req: Request, res: Response) => {
 	}
 };
 
+const reloginService = async (
+	res: Response,
+	token: string,
+	currentToken: string,
+) => {
+	const data = decodeJWt(token);
+	const lastData = decodeJWt(currentToken);
+	if (data && typeof data === "object") {
+		const client = await clientModel.findById(data.reconnectionId);
+		console.log(lastData);
+		if (client && lastData && typeof lastData === "object") {
+			console.log("in");
+			const cookieToken = signToken({
+				email: lastData.email,
+				isAdmin: false,
+				id: lastData.id,
+				_id: lastData._id,
+				clientId: client._id.toString(),
+			});
+			createCookie(res, cookieToken);
+
+			const reconnectionToken = signToken({
+				reconnectionId: client._id.toString(),
+			});
+
+			createCookie(
+				res,
+				reconnectionToken,
+				ReconnectionTokenName,
+				reconnectionMaxAge,
+			);
+			return true;
+		}
+	}
+	return false;
+};
+
 const logoutService = (res: Response) => {
 	res.clearCookie(CookieName);
 	res.clearCookie(ReconnectionTokenName);
 	return "logout successfully";
 };
 
-export { loginService, logoutService };
+export { loginService, logoutService, reloginService };

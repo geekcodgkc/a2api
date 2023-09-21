@@ -9,6 +9,11 @@ interface cookieData extends JwtPayload {
 	exp: number;
 }
 
+interface jwtError {
+	name: string;
+	message: string;
+}
+
 const SECRET = process.env.SECRET;
 const ALG = "HS256";
 const TIME = process.env.COOKIE_TIME
@@ -24,17 +29,21 @@ const signToken = (data: Object): string => {
 	return response;
 };
 
-const verifyToken = (token: string): boolean => {
+const verifyToken = (token: string): boolean | jwtError => {
 	let verify;
 	jwt.verify(token, `${SECRET}`, (err, decoded) => {
 		if (err) {
-			throw new Error(JSON.stringify(err));
+			throw err;
 		}
 
 		verify = decoded;
 	});
 
 	return verify ? true : false;
+};
+
+const decodeJWt = (jwtToken: string) => {
+	return jwt.decode(jwtToken);
 };
 
 const extracDataFromJwtCookie = (cookies: string) => {
@@ -48,4 +57,4 @@ const extracDataFromJwtCookie = (cookies: string) => {
 	return decoded;
 };
 
-export { verifyToken, signToken, extracDataFromJwtCookie };
+export { verifyToken, signToken, extracDataFromJwtCookie, decodeJWt };

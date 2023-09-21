@@ -11,7 +11,7 @@ const login = async (req: Request, res: Response) => {
 	}
 };
 
-const logout = async (req: Request, res: Response) => {
+const logout = async (_req: Request, res: Response) => {
 	try {
 		const response = logoutService(res);
 		res.json({ response });

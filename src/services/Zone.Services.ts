@@ -10,11 +10,11 @@ const getZoneService = async (req: Request) => {
 			const zone = await zoneModel.findById(id);
 			return zone;
 		} catch (error: unknown) {
-			throw new Error(`${error}`);
+			throw `${error}`;
 		}
 	}
 
-	throw new Error(noId);
+	throw noId;
 };
 
 const getZonesService = async (req: Request) => {
@@ -22,7 +22,7 @@ const getZonesService = async (req: Request) => {
 		const zones = zoneModel.find();
 		return zones;
 	} catch (error) {
-		throw new Error(`${error}`);
+		throw `${error}`;
 	}
 };
 
@@ -32,7 +32,7 @@ const createZoneService = async (req: Request) => {
 		const zone = await zoneModel.create(data);
 		return zone;
 	} catch (error) {
-		throw new Error(`${error}`);
+		throw `${error}`;
 	}
 };
 
@@ -47,11 +47,11 @@ const updateZoneService = async (req: Request) => {
 			});
 			return zone;
 		} catch (error) {
-			throw new Error(`${error}`);
+			throw `${error}`;
 		}
 	}
 
-	throw new Error(noId);
+	throw noId;
 };
 
 const deleteZoneService = async (req: Request) => {
@@ -62,11 +62,11 @@ const deleteZoneService = async (req: Request) => {
 			await zoneModel.findByIdAndDelete(id);
 			return `zone with id: "${id}" was removed succesfully`;
 		} catch (error) {
-			throw new Error(`${error}`);
+			throw `${error}`;
 		}
 	}
 
-	throw new Error(noId);
+	throw noId;
 };
 
 export {

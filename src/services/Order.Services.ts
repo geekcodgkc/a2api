@@ -31,11 +31,11 @@ const getOrderService = async (req: Request) => {
 				: await orderModel.findById(id).populate("products");
 			return order;
 		} catch (error: unknown) {
-			throw new Error(`${error}`);
+			throw `${error}`;
 		}
 	}
 
-	throw new Error("no 'id' was provided");
+	throw "no 'id' was provided";
 };
 
 const getOrdersService = async (req: Request) => {
@@ -64,7 +64,7 @@ const getOrdersService = async (req: Request) => {
 					.populate("products.product", "-product.__v");
 		return order;
 	} catch (error: unknown) {
-		throw new Error(`${error}`);
+		throw `${error}`;
 	}
 };
 
@@ -87,7 +87,7 @@ const getOrdersByClientService = async (req: Request) => {
 			});
 		return order;
 	} catch (error: unknown) {
-		throw new Error(`${error}`);
+		throw `${error}`;
 	}
 };
 
@@ -107,7 +107,7 @@ const createOrderService = async (req: Request) => {
 		}
 		return order;
 	} catch (error) {
-		throw new Error(`${error}`);
+		throw `${error}`;
 	}
 };
 
@@ -133,11 +133,11 @@ const updateOrderService = async (req: Request) => {
 			}
 			return order;
 		} catch (error) {
-			throw new Error(`${error}`);
+			throw `${error}`;
 		}
 	}
 
-	throw new Error('"id" was required');
+	throw '"id" was required';
 };
 
 const deleteOrderService = async (req: Request) => {
@@ -148,11 +148,11 @@ const deleteOrderService = async (req: Request) => {
 			await orderModel.findByIdAndDelete(id);
 			return `order with id: "${id}" was removed succesfully`;
 		} catch (error) {
-			throw new Error(`${error}`);
+			throw `${error}`;
 		}
 	}
 
-	throw new Error('"id"was required');
+	throw '"id"was required';
 };
 
 export {

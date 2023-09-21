@@ -14,11 +14,11 @@ const getFreightService = async (req: Request) => {
 				: await freightModel.findById(id);
 			return freight;
 		} catch (error: unknown) {
-			throw new Error(`${error}`);
+			throw `${error}`;
 		}
 	}
 
-	throw new Error("no 'id' was provided");
+	throw "no 'id' was provided";
 };
 
 const getFreightsService = async (req: Request) => {
@@ -31,7 +31,7 @@ const getFreightsService = async (req: Request) => {
 			: await freightModel.find();
 		return freight;
 	} catch (error: unknown) {
-		throw new Error(`${error}`);
+		throw `${error}`;
 	}
 };
 
@@ -41,7 +41,7 @@ const createFreightService = async (req: Request) => {
 		const freight = await freightModel.create(data);
 		return freight;
 	} catch (error) {
-		throw new Error(`${error}`);
+		throw `${error}`;
 	}
 };
 
@@ -58,11 +58,11 @@ const updateFreightService = async (req: Request) => {
 				.populate("cod");
 			return freight;
 		} catch (error) {
-			throw new Error(`${error}`);
+			throw `${error}`;
 		}
 	}
 
-	throw new Error('"id" was required');
+	throw '"id" was required';
 };
 
 const deleteFreightService = async (req: Request) => {
@@ -73,11 +73,11 @@ const deleteFreightService = async (req: Request) => {
 			await freightModel.findByIdAndDelete(id);
 			return `freight with id: "${id}" was removed succesfully`;
 		} catch (error) {
-			throw new Error(`${error}`);
+			throw `${error}`;
 		}
 	}
 
-	throw new Error('"id"was required');
+	throw '"id"was required';
 };
 
 export {

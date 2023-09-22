@@ -46,7 +46,7 @@ const decodeJWt = (jwtToken: string) => {
 	return jwt.decode(jwtToken);
 };
 
-const extracDataFromJwtCookie = (cookies: string) => {
+const extractDataFromJwtCookie = (cookies: string) => {
 	const token = cookies
 		.split(";")
 		.find((element) => element.includes("_token"));
@@ -57,4 +57,4 @@ const extracDataFromJwtCookie = (cookies: string) => {
 	return decoded;
 };
 
-export { verifyToken, signToken, extracDataFromJwtCookie, decodeJWt };
+export { verifyToken, signToken, extractDataFromJwtCookie, decodeJWt };

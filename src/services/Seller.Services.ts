@@ -2,7 +2,7 @@ import { Request } from "express";
 import sellerModel from "../models/Seller.Model";
 import { hashpassword } from "../utils/bcryptUtils";
 import { noId } from "../config/ErrorTypes";
-import { extracDataFromJwtCookie } from "../utils/jwtutils";
+import { extractDataFromJwtCookie } from "../utils/jwtutils";
 import ClientModel from "../models/Client.Model";
 
 const getSellerService = async (req: Request) => {
@@ -25,7 +25,7 @@ const getSellerService = async (req: Request) => {
 
 const getSellersService = async (req: Request) => {
 	try {
-		const CookieData = extracDataFromJwtCookie(`${req.headers.cookie}`);
+		const CookieData = extractDataFromJwtCookie(`${req.headers.cookie}`);
 		if (!CookieData || typeof CookieData !== "object") return "cookie invalid";
 		const sellers = await ClientModel.findById(CookieData._id).populate(
 			"sellers",
@@ -40,7 +40,7 @@ const getSellersService = async (req: Request) => {
 const createSellerService = async (req: Request) => {
 	const data = req.body;
 	try {
-		const CookieData = extracDataFromJwtCookie(`${req.headers.cookie}`);
+		const CookieData = extractDataFromJwtCookie(`${req.headers.cookie}`);
 		if (!CookieData || typeof CookieData !== "object") return "cookie invalid";
 		const password = await hashpassword(data.password);
 		data.password = password;

@@ -1,6 +1,8 @@
 import jwt, { JwtPayload } from "jsonwebtoken/index";
 import "dotenv/config";
 
+const CookieName = `${process.env.TOKEN_NAME}`;
+
 interface cookieData extends JwtPayload {
 	_id: string;
 	isAdmin: boolean;
@@ -49,7 +51,7 @@ const decodeJWt = (jwtToken: string) => {
 const extractDataFromJwtCookie = (cookies: string) => {
 	const token = cookies
 		.split(";")
-		.find((element) => element.includes("_token"));
+		.find((element) => element.includes(CookieName));
 	const jwtToken = token?.split("=").pop();
 	const decoded: cookieData | null | string | JwtPayload = jwt.decode(
 		`${jwtToken}`,

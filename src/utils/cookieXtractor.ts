@@ -1,4 +1,8 @@
 import { Request } from "express";
+import "dotenv/config";
+
+const CookieName = `${process.env.TOKEN_NAME}`;
+const ReconnectionTokenName = `${process.env.RECONNECT_TOKEN_NAME}`;
 
 const cookieXtractor = (req: Request) => {
 	const cookie = req.headers.cookie;
@@ -9,7 +13,7 @@ const cookieXtractor = (req: Request) => {
 		?.split(";")
 		.filter((Element) => {
 			return (
-				Element.includes("_token") || Element.includes("_reconnectionToken")
+				Element.includes(CookieName) || Element.includes(ReconnectionTokenName)
 			);
 		})
 		.map((cookieData) => cookieData.split("=").pop());

@@ -3,9 +3,10 @@ import sellerModel from "../models/Seller.Model";
 import clientModel from "../models/Client.Model";
 import { decodeJWt, signToken } from "../utils/jwtutils";
 import { validateHash } from "../utils/bcryptUtils";
+import "dotenv/config";
 
-const CookieName = "_token";
-const ReconnectionTokenName = "_reconnectionToken";
+const CookieName = `${process.env.TOKEN_NAME}`;
+const ReconnectionTokenName = `${process.env.RECONNECT_TOKEN_NAME}`;
 const reconnectionMaxAge = 60 * 60 * 24 * 1000;
 
 const findSeller = async (id: string) => {

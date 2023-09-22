@@ -1,5 +1,6 @@
 import { Request } from "express";
 import productModel from "../models/Products.Model";
+import { extractDataFromJwtCookie } from "../utils/jwtutils";
 
 const getProductService = async (req: Request) => {
 	const id = req.params.id;
@@ -21,8 +22,10 @@ const getProductService = async (req: Request) => {
 
 const getProductsService = async (req: Request) => {
 	try {
+		const CookieData = extractDataFromJwtCookie(`${req.headers.cookie}`);
+		if (!CookieData || typeof CookieData !== "object") return "cookie invalid";
 		const product = productModel.find(
-			{},
+			{ clientID: CookieData._id },
 			"-__v -createdAt -updatedAt -prices._id",
 		);
 		return product;
@@ -34,7 +37,10 @@ const getProductsService = async (req: Request) => {
 const createProductService = async (req: Request) => {
 	const data = req.body;
 	try {
-		const product = await productModel.insertMany(data);
+		const CookieData = extractDataFromJwtCookie(`${req.headers.cookie}`);
+		if (!CookieData || typeof CookieData !== "object") return "cookie invalid";
+		data.clienID = CookieData._id;
+		const product = await productModel.create(data);
 		return product;
 	} catch (error) {
 		throw `${error}`;

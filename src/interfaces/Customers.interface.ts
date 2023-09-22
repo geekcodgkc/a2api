@@ -11,5 +11,5 @@ export interface Customer extends mongoose.Document {
 	contact: string;
 	id: string;
 	email: string;
-	ClientId: string | Client;
+	clientID: string | Client;
 }

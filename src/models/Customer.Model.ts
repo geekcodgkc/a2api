@@ -41,7 +41,7 @@ const CustomerSchema = new Schema<Customer>(
 			unique: true,
 			required: true,
 		},
-		ClientId: {
+		clientID: {
 			type: Schema.Types.ObjectId,
 			ref: ClientModel,
 			required: true,

@@ -5,7 +5,7 @@ import { loginService, logoutService } from "../services/Login.Services";
 const login = async (req: Request, res: Response) => {
 	try {
 		const response = await loginService(req, res);
-		res.json({ token: response });
+		res.json(response);
 	} catch (error) {
 		handleErrorHttp(res, "hubo un error", error);
 	}

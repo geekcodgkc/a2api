@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { Product } from "./Products.interface";
-import { Client } from "./Client.interface";
+import { Customer } from "./Customers.interface";
+import { Seller } from "./Seller.interface";
 
 enum Status {
 	status1 = 0,
@@ -16,7 +17,8 @@ export interface ProductOrder extends mongoose.Document {
 
 export interface Order extends mongoose.Document {
 	products: ProductOrder[];
-	client: Client | string;
+	client: Customer | string;
+	seller: Seller | string;
 	date: Date;
 	shippingDate: Date;
 	orderTotal: number;

@@ -24,8 +24,12 @@ const getDepartmentService = async (req: Request) => {
 const getDepartmentsService = async (req: Request) => {
 	try {
 		const CookieData = extractDataFromJwtCookie(`${req.headers.cookie}`);
+		console.log(CookieData);
+		console.log(await DeparmentModel.find());
 		if (!CookieData || typeof CookieData !== "object") return "cookie invalid";
-		const deparments = await DeparmentModel.find({ clientID: CookieData._id });
+		const deparments = await DeparmentModel.find({
+			clientID: CookieData.clientID,
+		});
 		return deparments;
 	} catch (error) {
 		throw `${error}`;

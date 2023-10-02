@@ -1,7 +1,8 @@
 import { Order, ProductOrder } from "../interfaces/Order.interface";
 import { Schema, model } from "mongoose";
 import ProductModel from "./Products.Model";
-import ClientModel from "./Client.Model";
+import CustomerModel from "./Customer.Model";
+import SellerModel from "./Seller.Model";
 
 const ProductSaleSchema = new Schema<ProductOrder>(
 	{
@@ -31,7 +32,7 @@ const OrderSchema = new Schema<Order>(
 		products: [ProductSaleSchema],
 		client: {
 			type: Schema.Types.ObjectId,
-			ref: ClientModel,
+			ref: CustomerModel,
 			required: true,
 		},
 		date: {
@@ -66,6 +67,11 @@ const OrderSchema = new Schema<Order>(
 		},
 		orderNumber: {
 			type: Number,
+			required: true,
+		},
+		seller: {
+			type: Schema.Types.ObjectId,
+			ref: SellerModel,
 			required: true,
 		},
 	},

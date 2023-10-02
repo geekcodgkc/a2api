@@ -62,7 +62,7 @@ const loginService = async (req: Request, res: Response) => {
 			isAdmin: false,
 			id: seller.id,
 			_id: seller._id,
-			clientId: clientId._id,
+			clientID: clientId._id,
 		});
 		createCookie(res, cookieToken);
 		// creamos la cookie de reconeccion
@@ -78,7 +78,12 @@ const loginService = async (req: Request, res: Response) => {
 			reconnectionMaxAge,
 		);
 
-		return cookieToken;
+		return {
+			token: cookieToken,
+			userData: seller,
+			isAdmin: false,
+			clientID: clientId._id,
+		};
 	}
 
 	if (client) {
@@ -90,7 +95,7 @@ const loginService = async (req: Request, res: Response) => {
 			isAdmin: true,
 			id: client.rif,
 			_id: client._id,
-			clientId: client._id,
+			clientID: client._id,
 		});
 		createCookie(res, cookieToken);
 
@@ -106,7 +111,12 @@ const loginService = async (req: Request, res: Response) => {
 			reconnectionMaxAge,
 		);
 
-		return cookieToken;
+		return {
+			token: cookieToken,
+			userData: client,
+			isAdmin: true,
+			clientID: client._id,
+		};
 	}
 };
 

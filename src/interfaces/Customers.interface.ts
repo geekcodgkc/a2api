@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { Client } from "./Client.interface";
+import { Seller } from "./Seller.interface";
 
 export interface Customer extends mongoose.Document {
 	rif: string;
@@ -12,4 +13,5 @@ export interface Customer extends mongoose.Document {
 	id: string;
 	email: string;
 	clientID: string | Client;
+	seller: string | Seller;
 }

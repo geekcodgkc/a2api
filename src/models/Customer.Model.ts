@@ -1,6 +1,7 @@
 import { Schema, model } from "mongoose";
 import { Customer } from "../interfaces/Customers.interface";
 import ClientModel from "./Client.Model";
+import SellerModel from "./Seller.Model";
 
 const CustomerSchema = new Schema<Customer>(
 	{
@@ -44,6 +45,11 @@ const CustomerSchema = new Schema<Customer>(
 		clientID: {
 			type: Schema.Types.ObjectId,
 			ref: ClientModel,
+			required: true,
+		},
+		seller: {
+			type: Schema.Types.ObjectId,
+			ref: SellerModel,
 			required: true,
 		},
 	},

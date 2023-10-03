@@ -120,21 +120,19 @@ const loginService = async (req: Request, res: Response) => {
 	}
 };
 
-const reloginService = async (
-	res: Response,
-	token: string,
-	currentToken: string,
-) => {
+const reloginService = async (res: Response, token: string) => {
 	const data = decodeJWt(token);
-	const lastData = decodeJWt(currentToken);
 	if (data && typeof data === "object") {
-		const client = await clientModel.findById(data.reconnectionId);
-		if (client && lastData && typeof lastData === "object") {
+		const client = await clientModel.findOne({
+			$or: [{ _id: data._id }, { sellers: data._id }],
+		});
+		console.log(client);
+		if (client) {
 			const cookieToken = signToken({
-				email: lastData.email,
+				email: client.email,
 				isAdmin: false,
-				id: lastData.id,
-				_id: lastData._id,
+				id: client.id,
+				_id: client._id,
 				clientId: client._id.toString(),
 			});
 			createCookie(res, cookieToken);

@@ -43,7 +43,7 @@ const getCustomersService = async (req: Request) => {
 		const CookieData = extractDataFromJwtCookie(`${req.headers.cookie}`);
 		if (!CookieData || typeof CookieData !== "object") return "cookie invalid";
 		const customers = await CustomerModel.find(
-			{ clientID: CookieData._id },
+			{ seller: CookieData._id },
 			{},
 			query,
 		);

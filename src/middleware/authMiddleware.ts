@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { verifyToken } from "../utils/jwtutils";
+import { decodeJWt, verifyToken } from "../utils/jwtutils";
 import "dotenv/config";
 import cookieXtractor from "../utils/cookieXtractor";
 import { reloginService } from "../services/Login.Services";
@@ -26,21 +26,11 @@ const handleAuth = async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			authCookie = verifyToken(extractCookie);
 		} catch (error) {
-			if (error && typeof error === "object") {
-				const key = Object.values(error).find((e) =>
-					typeof e === "string" ? e.includes("jwt expired") : false,
-				);
-				if (key) {
-					const reloged = await reloginService(
-						res,
-						extractReconnectionToken,
-						extractCookie,
-					);
-					if (reloged) {
-						next();
-						return;
-					}
-				}
+			console.log(decodeJWt(extractReconnectionToken));
+			const reloged = await reloginService(res, extractReconnectionToken);
+			if (reloged) {
+				next();
+				return;
 			}
 			res.status(401);
 			res.json({ message: "unauthorized" });

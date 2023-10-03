@@ -16,7 +16,14 @@ const cookieXtractor = (req: Request) => {
 				Element.includes(CookieName) || Element.includes(ReconnectionTokenName)
 			);
 		})
-		.map((cookieData) => cookieData.split("=").pop());
+		.forEach((cookie) => {
+			const cookieName = cookie.split("=");
+			if (cookieName[0] === ReconnectionTokenName) {
+				reconnectToken = cookieName[1];
+			} else {
+				token = cookieName[1];
+			}
+		});
 
 	if (extractCookie?.[0] && extractCookie[1]) {
 		token = extractCookie[0];

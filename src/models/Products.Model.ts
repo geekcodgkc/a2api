@@ -77,6 +77,10 @@ const ProductSchema = new Schema<Product>(
 			type: Boolean,
 			default: true,
 		},
+		qty: {
+			type: Number,
+			required: true,
+		},
 	},
 	{
 		timestamps: true,

@@ -27,7 +27,7 @@ export interface Product extends mongoose.Document {
 	name: string;
 	prices: Price;
 	department: [string];
-	qty: string;
+	qty: number;
 	status: boolean;
 	description: string;
 	tax: number;

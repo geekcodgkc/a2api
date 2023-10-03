@@ -1,6 +1,7 @@
 import { Product, Price } from "../interfaces/Products.interface";
 import { Schema, model } from "mongoose";
 import ClientModel from "./Client.Model";
+import DeparmentModel from "./Department.Model";
 
 const PricesSchemas = new Schema<Price>(
 	{
@@ -68,7 +69,12 @@ const ProductSchema = new Schema<Product>(
 			required: true,
 		},
 		prices: PricesSchemas,
-		department: [String],
+		department: [
+			{
+				type: Schema.Types.ObjectId,
+				ref: DeparmentModel,
+			},
+		],
 		tax: {
 			type: Number,
 			required: true,

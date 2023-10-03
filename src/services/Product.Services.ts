@@ -24,10 +24,12 @@ const getProductsService = async (req: Request) => {
 	try {
 		const CookieData = extractDataFromJwtCookie(`${req.headers.cookie}`);
 		if (!CookieData || typeof CookieData !== "object") return "cookie invalid";
-		const product = productModel.find(
-			{ clientID: CookieData._id },
-			"-__v -createdAt -updatedAt -prices._id",
-		);
+		const product = productModel
+			.find(
+				{ clientID: CookieData._id },
+				"-__v -createdAt -updatedAt -prices._id",
+			)
+			.populate("department", "-createdAt -updatedAt -_id -__v -clientID");
 		return product;
 	} catch (error) {
 		throw `${error}`;

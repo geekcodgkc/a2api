@@ -26,7 +26,7 @@ export interface Product extends mongoose.Document {
 	clientID: string | Client;
 	name: string;
 	prices: Price;
-	department: [string];
+	department: [string | Department];
 	qty: number;
 	status: boolean;
 	description: string;

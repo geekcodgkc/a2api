@@ -68,7 +68,7 @@ const loginService = async (req: Request, res: Response) => {
 		// creamos la cookie de reconeccion
 
 		const reconnectionToken = signToken({
-			reconnectionId: seller._id,
+			reconnectionID: seller._id,
 		});
 
 		createCookie(
@@ -101,7 +101,7 @@ const loginService = async (req: Request, res: Response) => {
 
 		// creamos el token de reconeccion
 		const reconnectionToken = signToken({
-			reconnectionId: client._id,
+			reconnectionID: client._id,
 		});
 
 		createCookie(
@@ -123,8 +123,8 @@ const loginService = async (req: Request, res: Response) => {
 const reloginService = async (res: Response, token: string) => {
 	const data = decodeJWt(token);
 	if (data && typeof data === "object") {
-		const seller = await sellerModel.findById(data.reconnectionId);
-		const client = await clientModel.findById(data.reconnectionId);
+		const seller = await sellerModel.findById(data.reconnectionID);
+		const client = await clientModel.findById(data.reconnectionID);
 
 		if (seller) {
 			const clientId = await clientModel.findOne({
@@ -141,7 +141,7 @@ const reloginService = async (res: Response, token: string) => {
 			// creamos la cookie de reconeccion
 
 			const reconnectionToken = signToken({
-				reconnectionId: clientId?._id,
+				reconnectionID: clientId?._id,
 			});
 
 			createCookie(
@@ -166,7 +166,7 @@ const reloginService = async (res: Response, token: string) => {
 
 			// creamos el token de reconeccion
 			const reconnectionToken = signToken({
-				reconnectionId: client._id,
+				reconnectionID: client._id,
 			});
 
 			createCookie(

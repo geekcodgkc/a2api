@@ -26,14 +26,19 @@ const handleAuth = async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			authCookie = verifyToken(extractCookie);
 		} catch (error) {
-			console.log(decodeJWt(extractReconnectionToken));
-			const reloged = await reloginService(res, extractReconnectionToken);
-			if (reloged) {
-				next();
-				return;
+			try {
+				const reloged = await reloginService(res, extractReconnectionToken);
+				if (reloged) {
+					next();
+					return;
+				} else {
+					res.status(401);
+					res.json({ message: "unauthorized" });
+				}
+			} catch (error) {
+				res.status(401);
+				res.json({ message: "unauthorized" });
 			}
-			res.status(401);
-			res.json({ message: "unauthorized" });
 		}
 
 		auth && authCookie ? next() : res.status(401);

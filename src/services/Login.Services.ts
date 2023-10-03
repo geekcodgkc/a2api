@@ -68,7 +68,7 @@ const loginService = async (req: Request, res: Response) => {
 		// creamos la cookie de reconeccion
 
 		const reconnectionToken = signToken({
-			reconnectionId: clientId._id,
+			reconnectionId: seller._id,
 		});
 
 		createCookie(
@@ -123,22 +123,25 @@ const loginService = async (req: Request, res: Response) => {
 const reloginService = async (res: Response, token: string) => {
 	const data = decodeJWt(token);
 	if (data && typeof data === "object") {
-		const client = await clientModel.findOne({
-			$or: [{ _id: data._id }, { sellers: data._id }],
-		});
-		console.log(client);
-		if (client) {
+		const seller = await sellerModel.findById(data.reconnectionId);
+		const client = await clientModel.findById(data.reconnectionId);
+
+		if (seller) {
+			const clientId = await clientModel.findOne({
+				sellers: seller._id.toString(),
+			});
 			const cookieToken = signToken({
-				email: client.email,
+				email: seller.email,
 				isAdmin: false,
-				id: client.id,
-				_id: client._id,
-				clientId: client._id.toString(),
+				id: seller.id,
+				_id: seller._id,
+				clientID: clientId?._id,
 			});
 			createCookie(res, cookieToken);
+			// creamos la cookie de reconeccion
 
 			const reconnectionToken = signToken({
-				reconnectionId: client._id.toString(),
+				reconnectionId: clientId?._id,
 			});
 
 			createCookie(
@@ -147,6 +150,32 @@ const reloginService = async (res: Response, token: string) => {
 				ReconnectionTokenName,
 				reconnectionMaxAge,
 			);
+
+			return true;
+		}
+
+		if (client) {
+			const cookieToken = signToken({
+				email: client.email,
+				isAdmin: true,
+				id: client.rif,
+				_id: client._id,
+				clientID: client._id,
+			});
+			createCookie(res, cookieToken);
+
+			// creamos el token de reconeccion
+			const reconnectionToken = signToken({
+				reconnectionId: client._id,
+			});
+
+			createCookie(
+				res,
+				reconnectionToken,
+				ReconnectionTokenName,
+				reconnectionMaxAge,
+			);
+
 			return true;
 		}
 	}

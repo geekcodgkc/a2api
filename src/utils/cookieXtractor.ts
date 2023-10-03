@@ -18,7 +18,7 @@ const cookieXtractor = (req: Request) => {
 		})
 		.forEach((cookie) => {
 			const cookieName = cookie.split("=");
-			if (cookieName[0] === ReconnectionTokenName) {
+			if (cookieName[0].trim() === ReconnectionTokenName) {
 				reconnectToken = cookieName[1];
 			} else {
 				token = cookieName[1];

@@ -7,7 +7,7 @@ import "dotenv/config";
 
 const CookieName = `${process.env.TOKEN_NAME}`;
 const ReconnectionTokenName = `${process.env.RECONNECT_TOKEN_NAME}`;
-const reconnectionMaxAge = 1000 * 60 * 60 * 24 * 12;
+const reconnectionMaxAge = 1000 * 60 * 60 * 24 * 7;
 
 const findSeller = async (id: string) => {
 	try {
@@ -34,7 +34,7 @@ const createCookie = (
 	maxAge?: number,
 ) => {
 	res.cookie(name || CookieName, value, {
-		maxAge: maxAge || 60 * 30 * 1000,
+		maxAge: maxAge || 60 * 60 * 1000,
 		httpOnly: true,
 	});
 };
@@ -78,6 +78,8 @@ const loginService = async (req: Request, res: Response) => {
 			reconnectionMaxAge,
 		);
 
+		seller.password = "";
+
 		return {
 			token: cookieToken,
 			userData: seller,
@@ -110,6 +112,8 @@ const loginService = async (req: Request, res: Response) => {
 			ReconnectionTokenName,
 			reconnectionMaxAge,
 		);
+
+		client.password = "";
 
 		return {
 			token: cookieToken,

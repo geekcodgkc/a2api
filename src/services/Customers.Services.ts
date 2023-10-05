@@ -8,7 +8,7 @@ const createCustomerService = async (req: Request) => {
 	try {
 		const CookieData = extractDataFromJwtCookie(`${req.headers.cookie}`);
 		if (!CookieData || typeof CookieData !== "object") return "cookie invalid";
-		body.clienID = CookieData._idd;
+		body.clienID = CookieData.clientID;
 		const customer = await CustomerModel.create(body);
 		return customer;
 	} catch (error) {

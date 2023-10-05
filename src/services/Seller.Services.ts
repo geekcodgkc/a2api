@@ -27,7 +27,7 @@ const getSellersService = async (req: Request) => {
 	try {
 		const CookieData = extractDataFromJwtCookie(`${req.headers.cookie}`);
 		if (!CookieData || typeof CookieData !== "object") return "cookie invalid";
-		const sellers = await ClientModel.findById(CookieData._id).populate(
+		const sellers = await ClientModel.findById(CookieData.clientID).populate(
 			"sellers",
 		);
 		sellers?.toJSON();

@@ -6,44 +6,20 @@ import DeparmentModel from "./Department.Model";
 const PricesSchemas = new Schema<Price>(
 	{
 		p1: {
-			price: {
-				type: Number,
-				default: 0,
-			},
-			range: {
-				type: Number,
-				default: 0,
-			},
+			type: Number,
+			default: 0,
 		},
 		p2: {
-			price: {
-				type: Number,
-				default: 0,
-			},
-			range: {
-				type: Number,
-				default: 0,
-			},
+			type: Number,
+			default: 0,
 		},
 		p3: {
-			price: {
-				type: Number,
-				default: 0,
-			},
-			range: {
-				type: Number,
-				default: 0,
-			},
+			type: Number,
+			default: 0,
 		},
 		p4: {
-			price: {
-				type: Number,
-				default: 0,
-			},
-			range: {
-				type: Number,
-				default: 0,
-			},
+			type: Number,
+			default: 0,
 		},
 	},
 	{
@@ -71,8 +47,7 @@ const ProductSchema = new Schema<Product>(
 		prices: PricesSchemas,
 		department: [
 			{
-				type: Schema.Types.ObjectId,
-				ref: DeparmentModel,
+				type: String,
 			},
 		],
 		tax: {

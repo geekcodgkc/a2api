@@ -26,7 +26,7 @@ const getProductsService = async (req: Request) => {
 		if (!CookieData || typeof CookieData !== "object") return "cookie invalid";
 		const product = productModel
 			.find(
-				{ clientID: CookieData._id },
+				{ clientID: CookieData.clientID },
 				"-__v -createdAt -updatedAt -prices._id",
 			)
 			.populate("department", "-createdAt -updatedAt -_id -__v -clientID");

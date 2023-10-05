@@ -1,24 +1,11 @@
 import mongoose from "mongoose";
-import { Department } from "./Department.interface";
 import { Client } from "./Client.interface";
 
 export interface Price extends mongoose.Document {
-	p1: {
-		price: number;
-		range: number;
-	};
-	p2: {
-		price: number;
-		range: number;
-	};
-	p3: {
-		price: number;
-		range: number;
-	};
-	p4: {
-		price: number;
-		range: number;
-	};
+	p1: number;
+	p2: number;
+	p3: number;
+	p4: number;
 }
 
 export interface Product extends mongoose.Document {
@@ -26,7 +13,7 @@ export interface Product extends mongoose.Document {
 	clientID: string | Client;
 	name: string;
 	prices: Price;
-	department: [string | Department];
+	department: [string] | [];
 	qty: number;
 	status: boolean;
 	description: string;

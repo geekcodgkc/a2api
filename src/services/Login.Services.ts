@@ -7,7 +7,7 @@ import "dotenv/config";
 
 const CookieName = `${process.env.TOKEN_NAME}`;
 const ReconnectionTokenName = `${process.env.RECONNECT_TOKEN_NAME}`;
-const reconnectionMaxAge = 60 * 60 * 24 * 1000;
+const reconnectionMaxAge = 1000 * 60 * 60 * 24 * 12;
 
 const findSeller = async (id: string) => {
 	try {

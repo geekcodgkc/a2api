@@ -28,3 +28,23 @@ export interface Order extends mongoose.Document {
 	shippingAddress: string;
 	orderNumber: number;
 }
+
+interface ProductOrderInput {
+	product:  string;
+	price: number;
+	qty: number;
+}
+
+export interface OrderInput {
+	products: ProductOrderInput[];
+	client: Customer | string;
+	seller: Seller | string;
+	date: Date;
+	shippingDate: Date;
+	orderTotal: number;
+	iva: number;
+	orderBase: number;
+	status: Status;
+	shippingAddress: string;
+	orderNumber: number;
+}

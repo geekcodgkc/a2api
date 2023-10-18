@@ -1,6 +1,8 @@
 import { Request } from "express";
 import orderModel from "../models/Order.Model";
 import sendDataToSocket from "../utils/sendDataToSocket";
+import { updateProductQty } from "./Product.Services";
+import { ProductOrder } from "../interfaces/Order.interface";
 
 const getOrderService = async (req: Request) => {
 	const id = req.params.id;
@@ -12,13 +14,7 @@ const getOrderService = async (req: Request) => {
 				? await orderModel
 						.findById(id)
 						.populate(
-							[
-								"products",
-								"client",
-								"client.zone",
-								"client.seller",
-								"product.product",
-							],
+							["products", "client", "client.seller", "product.product"],
 							{
 								client: {
 									password: 0,
@@ -42,7 +38,6 @@ const getOrdersService = async (req: Request) => {
 	const populated = req.query.populated;
 
 	try {
-		const count = await orderModel.countDocuments();
 		const order = populated
 			? await orderModel
 					.find()
@@ -52,9 +47,6 @@ const getOrdersService = async (req: Request) => {
 						path: "client",
 						options: {
 							password: 0,
-						},
-						populate: {
-							path: "zone",
 						},
 					})
 			: await orderModel
@@ -80,9 +72,6 @@ const getOrdersByClientService = async (req: Request) => {
 				options: {
 					password: 0,
 				},
-				populate: {
-					path: "zone",
-				},
 			});
 		return order;
 	} catch (error: unknown) {
@@ -96,6 +85,12 @@ const createOrderService = async (req: Request) => {
 		const count = await orderModel.countDocuments();
 		data.orderNumber = count + 1;
 		const order = await orderModel.create(data);
+		
+		await updateProductQty(data.products.map((p: ProductOrder) => ({
+			id: p.product, 
+			qty: p.qty
+		})))
+
 		await order.populate(["client", "products.product"]);
 		const message = {
 			data: order.toJSON(),

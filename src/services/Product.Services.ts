@@ -91,10 +91,31 @@ const deleteProductService = async (req: Request) => {
 	throw '"id"was required';
 };
 
+interface updateValues {
+	id: string,
+	qty: number
+}
+
+const updateProductQty = async (ids: updateValues[]) => {
+	for ( let i = 0; i < ids.length; i++ ) {
+		try {
+			console.log(ids[i])
+			const product = await productModel.findById(ids[i].id)
+			if(product) {
+				product.toJSON()
+				await productModel.findByIdAndUpdate(ids[i].id, { qty: product.qty - ids[i].qty });
+			}
+		} catch (error) {
+			throw error
+		}
+	}
+}
+
 export {
 	getProductService,
 	getProductsService,
 	createProductService,
 	updateProductService,
 	deleteProductService,
+	updateProductQty
 };

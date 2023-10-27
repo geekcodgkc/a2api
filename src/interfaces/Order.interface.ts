@@ -30,7 +30,7 @@ export interface Order extends mongoose.Document {
 }
 
 interface ProductOrderInput {
-	product:  string;
+	product: string;
 	price: number;
 	qty: number;
 }

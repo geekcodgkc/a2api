@@ -1,6 +1,10 @@
 import { Request, Response } from "express";
 import { handleErrorHttp } from "../utils/handleErrorHttp";
-import { loginService, logoutService } from "../services/Login.Services";
+import {
+	loginService,
+	logoutService,
+	socketLoginService,
+} from "../services/Login.Services";
 
 const login = async (req: Request, res: Response) => {
 	try {
@@ -20,4 +24,13 @@ const logout = async (_req: Request, res: Response) => {
 	}
 };
 
-export { login, logout };
+const socketLogin = async (req: Request, res: Response) => {
+	try {
+		const response = await socketLoginService(req, res);
+		res.json(response);
+	} catch (error) {
+		handleErrorHttp(res, "hubo un error", error);
+	}
+};
+
+export { login, logout, socketLogin };

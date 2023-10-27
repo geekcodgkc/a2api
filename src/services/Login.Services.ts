@@ -4,6 +4,7 @@ import clientModel from "../models/Client.Model";
 import { decodeJWt, signToken } from "../utils/jwtutils";
 import { validateHash } from "../utils/bcryptUtils";
 import "dotenv/config";
+import ClientModel from "../models/Client.Model";
 
 const CookieName = `${process.env.TOKEN_NAME}`;
 const ReconnectionTokenName = `${process.env.RECONNECT_TOKEN_NAME}`;
@@ -192,4 +193,31 @@ const logoutService = (res: Response) => {
 	return "logout successfully";
 };
 
-export { loginService, logoutService, reloginService };
+const socketLoginService = async (req: Request, res: Response) => {
+	const body = req.body;
+
+	try {
+		const client = await ClientModel.findById(body.clientID);
+		if (client) {
+			let valid = false;
+			if (body.user === client._id.toString()) {
+				return "authenticated";
+			}
+			client.sellers.forEach((e) => {
+				if (e.toString() === body.user) {
+					valid = true;
+				}
+			});
+			if (valid) {
+				return "authenticated";
+			} else {
+				throw "user invalid";
+			}
+		}
+		throw "user invalid";
+	} catch (error) {
+		throw "user invalid";
+	}
+};
+
+export { loginService, logoutService, reloginService, socketLoginService };

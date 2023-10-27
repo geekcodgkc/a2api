@@ -54,7 +54,7 @@ const getClientService = async (req: Request) => {
 				? await ClientModel.findOne(
 						{ rif: id },
 						"-password -__v -createdAt -updatedAt -_id",
-				  ).populate("seller", "-password -id -createdAt -updatedAt -__v")
+				  ).populate("sellers", "-password -id -createdAt -updatedAt -__v")
 				: await ClientModel.findOne(
 						{ rif: id },
 						"-password -__v -createdAt -updatedAt -_id",

@@ -92,24 +92,27 @@ const deleteProductService = async (req: Request) => {
 };
 
 interface updateValues {
-	id: string,
-	qty: number
+	id: string;
+	qty: number;
 }
 
 const updateProductQty = async (ids: updateValues[]) => {
-	for ( let i = 0; i < ids.length; i++ ) {
+	for (let i = 0; i < ids.length; i++) {
 		try {
-			console.log(ids[i])
-			const product = await productModel.findById(ids[i].id)
-			if(product) {
-				product.toJSON()
-				await productModel.findByIdAndUpdate(ids[i].id, { qty: product.qty - ids[i].qty });
+			console.log(ids[i]);
+			const product = await productModel.findById(ids[i].id);
+			if (product) {
+				product.toJSON();
+				await productModel.findByIdAndUpdate(ids[i].id, {
+					qty: product.qty - ids[i].qty,
+				});
 			}
 		} catch (error) {
-			throw error
+			// rome-ignore lint/complexity/noUselessCatch: <explanation>
+			throw error;
 		}
 	}
-}
+};
 
 export {
 	getProductService,
@@ -117,5 +120,5 @@ export {
 	createProductService,
 	updateProductService,
 	deleteProductService,
-	updateProductQty
+	updateProductQty,
 };

@@ -1,7 +1,6 @@
 import { Request } from "express";
 import ClientModel from "../models/Client.Model";
 import { hashpassword } from "../utils/bcryptUtils";
-import sendDataToSocket from "../utils/sendDataToSocket";
 import { ClientForm } from "../interfaces/Client.interface";
 
 interface clientsRequest<T> extends Request {
@@ -94,8 +93,6 @@ const registerClientService = async (req: Request) => {
 		const clientData = { ...data, password };
 		const client = await ClientModel.create(clientData);
 		await client.populate("sellers");
-		const message = { data: client.toJSON(), type: "client" };
-		sendDataToSocket("data", "POST", message);
 		return client;
 	} catch (error) {
 		throw `${error}`;
@@ -119,9 +116,6 @@ const updateClientService = async (req: Request) => {
 				data: client ? client.toJSON() : client,
 				type: "client",
 			};
-			if (client) {
-				sendDataToSocket(`data/${client.id}`, "PUT", message);
-			}
 			return client;
 		} catch (error) {
 			throw `${error}`;

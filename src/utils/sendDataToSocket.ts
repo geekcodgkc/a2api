@@ -1,10 +1,28 @@
 import api from "../api";
+import "dotenv/config";
 
-const sendData = async (route: string, method: string, data: object) => {
+const TOKEN = `${process.env.TOKEN}`;
+
+interface headersInterface {
+	roomID: string;
+	readID: string;
+}
+
+const sendData = async (
+	route: string,
+	method: string,
+	data: object,
+	headers: headersInterface,
+) => {
 	try {
 		switch (method) {
 			case "POST":
-				await api.post(`/${route}`, data);
+				await api.post(`/${route}`, data, {
+					headers: {
+						...headers,
+						Authorization: `Bearer ${TOKEN}`,
+					},
+				});
 				break;
 			case "PUT":
 				await api.put(`/${route}`, data);

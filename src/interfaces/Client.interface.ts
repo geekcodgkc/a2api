@@ -18,6 +18,7 @@ export interface ClientForm {
 	phone: number[];
 	contact: string;
 	password: string;
+	totalKg: number;
 }
 
 export interface Client extends mongoose.Document {
@@ -33,4 +34,5 @@ export interface Client extends mongoose.Document {
 	taxpayer: boolean;
 	verified: boolean;
 	password: string;
+	totalKg: number;
 }

@@ -64,6 +64,10 @@ const ClientSchema = new Schema<Client>(
 			type: String,
 			required: true,
 		},
+		totalKg: {
+			type: Number,
+			default: 0,
+		},
 	},
 	{
 		timestamps: true,

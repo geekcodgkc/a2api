@@ -27,6 +27,10 @@ const SellerSchema = new Schema<Seller>(
 			required: true,
 			unique: true,
 		},
+		isSuper: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	{
 		timestamps: true,

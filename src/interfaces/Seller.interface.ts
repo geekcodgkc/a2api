@@ -6,4 +6,5 @@ export interface Seller extends mongoose.Document {
 	phone: string;
 	email: string;
 	password: string;
+	isSuper: boolean;
 }

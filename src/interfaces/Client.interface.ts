@@ -9,6 +9,14 @@ enum Condition {
 	p4 = 4,
 }
 
+/*
+	p1 = precio mas alto
+	p2 = precio intermedio
+	p3 = precio mas bajo
+	p4 = precio unilevel (este cliente solo puede ver los 
+		productos que se le habiliten)
+*/
+
 export interface ClientForm {
 	rif: string;
 	name: string;

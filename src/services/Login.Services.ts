@@ -49,6 +49,7 @@ const loginService = async (req: Request, res: Response) => {
 			isAdmin: true,
 			id: seller.id,
 			_id: seller._id,
+			isSuper: seller.isSuper,
 		});
 		createCookie(res, cookieToken);
 		return cookieToken;
@@ -63,6 +64,7 @@ const loginService = async (req: Request, res: Response) => {
 			isAdmin: false,
 			id: client.rif,
 			_id: client._id,
+			totalKG: client.totalKg,
 		});
 		createCookie(res, cookieToken);
 		return cookieToken;

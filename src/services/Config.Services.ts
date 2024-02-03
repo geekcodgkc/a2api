@@ -3,7 +3,7 @@ import ConfigModel from "../models/Config.Model";
 
 const getConfigService = async () => {
 	try {
-		const data = "this is the config";
+		const data = await ConfigModel.findOne();
 		return data;
 	} catch (error) {
 		return error;
@@ -12,8 +12,19 @@ const getConfigService = async () => {
 
 const createConfigService = async (req: Request) => {
 	try {
-		const data = "this is the config";
-		return data;
+		const body = req.body;
+		const exist = await ConfigModel.findOne();
+
+		if (exist) {
+			const data = await ConfigModel.findByIdAndUpdate(
+				exist._id.toString(),
+				body,
+			);
+			return data;
+		} else {
+			const data = await ConfigModel.create(body);
+			return data;
+		}
 	} catch (error) {
 		return error;
 	}
@@ -21,7 +32,8 @@ const createConfigService = async (req: Request) => {
 
 const updateConfigService = async (req: Request) => {
 	try {
-		const data = "this is the config";
+		const body = req.body;
+		const data = await ConfigModel.updateOne({}, body);
 		return data;
 	} catch (error) {
 		return error;

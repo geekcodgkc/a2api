@@ -11,3 +11,5 @@ const router = Router();
 router.get("/", handleAuth, getConfig);
 router.post("/", handleAuth, createConfig);
 router.put("/", handleAuth, updateConfig);
+
+export { router };

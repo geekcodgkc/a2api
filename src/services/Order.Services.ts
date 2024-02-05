@@ -2,6 +2,8 @@ import { Request } from "express";
 import orderModel from "../models/Order.Model";
 import ClientModel from "../models/Client.Model";
 import sendDataToSocket from "../utils/sendDataToSocket";
+import SumWeigth from "../utils/getTotalOrderWeigth";
+import { ProductOrder } from "../interfaces/Order.interface";
 
 const getOrderService = async (req: Request) => {
 	const id = req.params.id;
@@ -95,7 +97,11 @@ const getOrdersByClientService = async (req: Request) => {
 const createOrderService = async (req: Request) => {
 	const data = req.body;
 	try {
-		//const client = await ClientModel.findByIdAndUpdate(data.client, {$inc: {totalKg: }})
+		const products = data.products.map((p: ProductOrder) => ({
+			id: p.product,
+			amount: p.qty,
+		}));
+		const totalKg = await SumWeigth(products);
 		const count = await orderModel.countDocuments();
 		data.orderNumber = count + 1;
 		const order = await orderModel.create(data);
@@ -107,6 +113,9 @@ const createOrderService = async (req: Request) => {
 		if (order) {
 			sendDataToSocket("data", "POST", message);
 		}
+		await ClientModel.findByIdAndUpdate(data.client, {
+			$inc: { totalKg: totalKg },
+		});
 		return order;
 	} catch (error) {
 		throw new Error(`${error}`);

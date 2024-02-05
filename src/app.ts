@@ -5,6 +5,10 @@ import cookieParser from "cookie-parser";
 import { router } from "./routes";
 import dbConnect from "./config/mongo";
 import morgan from "morgan";
+import cron from "node-cron";
+
+//funciones especiales
+import ResetAllClientsKg from "./utils/kgReset";
 
 const PORT = process.env.PORT || 3001;
 
@@ -20,6 +24,19 @@ app.use(express.static("public"));
 dbConnect()
 	.then(() => console.log("db connected"))
 	.catch((e) => console.log(e));
+
+const job = cron.schedule(
+	"* * * * *",
+	async () => {
+		await ResetAllClientsKg();
+	},
+	{
+		scheduled: true,
+		recoverMissedExecutions: true,
+	},
+);
+
+job.start();
 
 app.listen(PORT, () => {
 	console.log(`app running on port: ${PORT}`);

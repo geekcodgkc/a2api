@@ -42,7 +42,7 @@ const ProductSchema = new Schema<Product>(
 		tax: {
 			type: Number,
 			required: true,
-			enum: [0, 8, 16] 
+			enum: [0, 8, 16],
 		},
 		presentation: {
 			type: String,
@@ -68,13 +68,18 @@ const ProductSchema = new Schema<Product>(
 				"BULTO",
 				"CARBOYA",
 				"KG",
-				"UND"
+				"UND",
 			],
 			required: true,
 		},
 		status: {
 			type: Boolean,
 			default: true,
+		},
+		netWeight: {
+			type: Number,
+			required: true,
+			default: 10,
 		},
 	},
 	{

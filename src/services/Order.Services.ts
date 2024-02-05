@@ -1,5 +1,6 @@
 import { Request } from "express";
 import orderModel from "../models/Order.Model";
+import ClientModel from "../models/Client.Model";
 import sendDataToSocket from "../utils/sendDataToSocket";
 
 const getOrderService = async (req: Request) => {
@@ -94,6 +95,7 @@ const getOrdersByClientService = async (req: Request) => {
 const createOrderService = async (req: Request) => {
 	const data = req.body;
 	try {
+		//const client = await ClientModel.findByIdAndUpdate(data.client, {$inc: {totalKg: }})
 		const count = await orderModel.countDocuments();
 		data.orderNumber = count + 1;
 		const order = await orderModel.create(data);

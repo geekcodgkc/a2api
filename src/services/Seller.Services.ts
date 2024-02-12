@@ -49,6 +49,11 @@ const updateSellerService = async (req: Request) => {
 	const data = req.body;
 	const id = req.params.id;
 
+	if (data.password) {
+		const password = await hashpassword(data.password);
+		data.password = password;
+	}
+
 	if (id) {
 		try {
 			const seller = await sellerModel.findOneAndUpdate({ id }, data, {

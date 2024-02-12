@@ -65,6 +65,7 @@ const loginService = async (req: Request, res: Response) => {
 			id: client.rif,
 			_id: client._id,
 			totalKG: client.totalKg,
+			verified: true,
 		});
 		createCookie(res, cookieToken);
 		return cookieToken;

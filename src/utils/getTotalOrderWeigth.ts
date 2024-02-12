@@ -11,6 +11,7 @@ const sumWeigth = async (products: products[]) => {
 	try {
 		for (let i = 0; i < products.length; i++) {
 			const product = await ProductModel.findById(products[i].id, "netWeight");
+			console.log(`product weight ${product}`);
 			if (product) {
 				const total = product.netWeight * products[i].amount;
 				totalKg += total;

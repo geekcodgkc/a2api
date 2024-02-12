@@ -26,7 +26,7 @@ dbConnect()
 	.catch((e) => console.log(e));
 
 const job = cron.schedule(
-	"* * * * *",
+	"*/5 * * * *",
 	async () => {
 		console.log("running");
 		ResetAllClientsKg();

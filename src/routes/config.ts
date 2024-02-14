@@ -10,6 +10,6 @@ const router = Router();
 
 router.get("/", handleAuth, getConfig);
 router.post("/", handleAuth, createConfig);
-router.put("/", handleAuth, updateConfig);
+router.put("/:id", handleAuth, updateConfig);
 
 export { router };

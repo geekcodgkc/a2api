@@ -32,8 +32,10 @@ const createConfigService = async (req: Request) => {
 
 const updateConfigService = async (req: Request) => {
 	try {
+		const id = req.params.id;
 		const body = req.body;
-		const data = await ConfigModel.updateOne({}, body);
+		console.log(req.body);
+		const data = await ConfigModel.findByIdAndUpdate(id, body);
 		return data;
 	} catch (error) {
 		return error;

@@ -35,7 +35,7 @@ const updateConfigService = async (req: Request) => {
 		const id = req.params.id;
 		const body = req.body;
 		console.log(req.body);
-		const data = await ConfigModel.findByIdAndUpdate(id, body);
+		const data = await ConfigModel.findByIdAndUpdate(id, { $set: body });
 		return data;
 	} catch (error) {
 		return error;
